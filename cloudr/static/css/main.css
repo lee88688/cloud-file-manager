@@ -1,0 +1,46 @@
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+div.contianer-fluid {
+    width: 100%;
+}
+
+div.contianer-fluid > div {
+    width: 100%;
+}
+
+.small-font-size-radius {
+    font-size: 0.9rem;
+    border-radius: 0.1rem;
+}
+
+.list-container {
+    overflow: auto;
+}
+
+.bottom-border {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
+    margin-bottom: -1px !important;
+}
+
+.checkbox {
+    min-width: 32px;
+}
+
+.file-list-item {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 1px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.file-list-item > div {
+    padding-left: 20px;
+    padding-right: 20px;
+}
