@@ -59,13 +59,9 @@
             </div>
             <div class="col-md-9" style="font-size: 0.9rem;">
                 <div class="clearfix pt-2 pb-2">
-                    <button type="button" class="btn btn-primary mr-1 small-font-size-radius">上传</button>
+                    <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#modal">上传</button>
                     <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">新建文件夹</button>
                     <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
-                    <form method=post enctype=multipart/form-data action="/api/uploads">
-                        <input type=file name=file>
-                        <input type=submit value=Upload>
-                      </form>
                     <form class="form-inline float-right">
                         <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
@@ -73,15 +69,6 @@
                 </div>
 
                 <nav aria-label="breadcrumb" id="path-nav">
-                    <!-- <ol class="breadcrumb small-font-size-radius">
-                        <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">Home</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a href="javascript:void(0);">Library</a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Data</li>
-                    </ol> -->
                     <breadcrumb v-bind:paths="paths"></breadcrumb>
                 </nav>
 
@@ -101,14 +88,36 @@
 
                     <div class="list-container" style="height: 1px;" id="file-list-container">
                         <ul class="list-group-flush ml-0 mr-0 pl-0 mb-0">
-                            <file-list-item 
-                                v-for="(item, index) in items"
-                                v-bind:item="item"
-                                v-bind:key="index"
-                                v-bind:id="index"></file-list-item>
-                            
+                            <file-list-item v-for="(item, index) in items" v-bind:item="item" v-bind:key="index" v-bind:id="index"></file-list-item>
+
                         </ul>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">上传文件</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/api/uploads" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="file" class="form-control-file" name="file">
+                            <input type="submit" value="Upload">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
