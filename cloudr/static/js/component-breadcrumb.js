@@ -1,4 +1,4 @@
-var breadcrumb_template = `
+let breadcrumb_template = `
 <ol class="breadcrumb small-font-size-radius">
     <template v-for="(path, index) in paths" v-bind:key="index">
         <li class="breadcrumb-item" v-if="index != (paths.length - 1)">

@@ -1,5 +1,4 @@
-
-var fileListItemTemplate = `
+let fileListItemTemplate = `
 <li v-bind:id="'list-item-' + id" 
     v-on:mouseenter="fileListMouseEnter($event.target)"
     v-on:mouseleave="fileListMouseLeave($event.target)"

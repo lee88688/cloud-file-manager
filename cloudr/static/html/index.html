@@ -12,7 +12,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Cloud</a>
+        <a class="navbar-brand" href="#">Cloudr</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -59,7 +59,7 @@
             </div>
             <div class="col-md-9" style="font-size: 0.9rem;">
                 <div class="clearfix pt-2 pb-2">
-                    <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#modal">上传</button>
+                    <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#upload-modal">上传</button>
                     <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">新建文件夹</button>
                     <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
                     <form class="form-inline float-right">
@@ -97,31 +97,27 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modal-title">上传文件</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/api/uploads" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <input type="file" class="form-control-file" name="file">
-                            <input type="submit" value="Upload">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+    <!-- Upload Modal -->
+    <modal id="upload-modal">
+        <template slot="header">
+            <h5 class="modal-title" id="modal-title">上传文件</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </template>
+
+        <form action="/api/uploads" method="POST" enctype="multipart/form-data" slot="body">
+            <div class="form-group row" style="margin-left: 0px; margin-right: 0px;">
+                <input id="upload-input" v-on:change="getFileName()" type="file" class="form-control-file" name="file" style="display: none;">
+                <label class="col col-form-label upload-box" v-on:click="uploadInputClick()">{{ fileName }}</label>
             </div>
-        </div>
-    </div>
+        </form>
+
+        <template slot="footer">
+            <button class="btn btn-primary">上传</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        </template>
+    </modal>
 
 
 
@@ -135,6 +131,7 @@
 
     <script src="/static/js/component-file-list.js"></script>
     <script src="/static/js/component-breadcrumb.js"></script>
+    <script src="/static/js/component-modal.js"></script>
     <script src="/static/js/instance.js"></script>
     <script src="/static/js/fileManager.js"></script>
 
