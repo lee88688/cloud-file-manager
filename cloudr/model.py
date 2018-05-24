@@ -15,8 +15,9 @@ class File(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     filename = db.Column(db.String(40), nullable=False)
-    virtualpath = db.Column(db.Text, nullable=False)
-    realpath = db.Column(db.Text, nullable=False)
+    filesize = db.Column(db.Integer)
+    uploaddate = db.Column(db.DateTime, nullable=False)
+    path = db.Column(db.Text, nullable=False)
     md5 = db.Column(db.String(40), nullable=False)
 
 
