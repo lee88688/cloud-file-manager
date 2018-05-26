@@ -106,7 +106,7 @@
             </button>
         </template>
 
-        <form action="/api/uploads" method="POST" enctype="multipart/form-data" slot="body">
+        <form id="upload-form" action="/api/uploads" method="POST" enctype="multipart/form-data" slot="body">
             <div class="form-group row" style="margin-left: 0px; margin-right: 0px;">
                 <input id="upload-input" v-on:change="getFileName()" type="file" class="form-control-file" name="file" style="display: none;">
                 <label class="col col-form-label upload-box" v-on:click="uploadInputClick()">{{ fileName }}</label>
@@ -114,7 +114,7 @@
         </form>
 
         <template slot="footer">
-            <button class="btn btn-primary">上传</button>
+            <button class="btn btn-primary" v-on:click="upload_file()">上传</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
         </template>
     </modal>
@@ -127,6 +127,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/static/js/libjs/md5.min.js"></script>
 
     <script src="/static/js/component-file-list.js"></script>
     <script src="/static/js/component-breadcrumb.js"></script>

@@ -18,13 +18,24 @@ def init_db_command():
     click.echo("Initialized the database.")
 
 
+@click.command("init-file-type")
+@with_appcontext
+def init_file_type_table():
+    from . import model
+    for file_type in model.FileType.file_types:
+        ft = model.FileType(filetype=file_type)
+        db.session.add(ft)
+    db.session.commit()
+    click.echo("Initialized file_type table.")
+
+
 @click.command("add-user")
 @click.argument("name")
 @click.argument("password")
 @with_appcontext
 def add_user(name, password):
-    from .model import User
-    u = User(username=name, password=password)
+    from .model import Users
+    u = Users(username=name, password=password)
     db.session.add(u)
     db.session.commit()
     click.echo("add " + str(u) + " success.")
@@ -40,10 +51,12 @@ def create_app():
 
     db.init_app(app)
 
-    from . import api
+    from . import api, file
     app.register_blueprint(api.bp)
+    app.register_blueprint(file.bp)
     
     app.cli.add_command(init_db_command)
+    app.cli.add_command(init_file_type_table)
     app.cli.add_command(add_user)
 
     return app

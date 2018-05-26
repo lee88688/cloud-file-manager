@@ -42,6 +42,33 @@ function getFileName() {
     }
 }
 
+function upload_file() {
+    let uploadInput = document.getElementById("upload-input");
+    let fd = new FormData(document.getElementById("upload-form"));
+    if(uploadInput.files.length === 0) {
+        alert("未选择文件，请重试！");
+        return;
+    }
+
+    let file = uploadInput.files[0];
+    fd.append("userid", 1);
+    fd.append("filesize", file.size);
+    fd.append("path", "/");
+    
+    let reader = new FileReader();
+    reader.onload = function(event) {
+        let md5Result = md5(event.target.result);
+        fd.append("md5", md5Result);
+        console.log(event);
+        console.log(fd);
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/file/uploads");
+        xhr.send(fd);
+    };
+
+    reader.readAsArrayBuffer(file);
+}
+
 var vmUploadModal = new Vue({
     el: "#upload-modal",
     data: {
@@ -49,6 +76,7 @@ var vmUploadModal = new Vue({
     },
     methods: {
         uploadInputClick,
-        getFileName
+        getFileName,
+        upload_file
     }
 });
