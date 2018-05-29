@@ -20,6 +20,9 @@ class File(db.Model):
     path = db.Column(db.Text, nullable=False)
     md5 = db.Column(db.String(40), nullable=False)
 
+    def __repr__(self):
+        return "<File ({name}) {path}>".format(name=self.filename, path=self.path)
+
 
 class FileType(db.Model):
     id = db.Column(db.Integer, primary_key=True)

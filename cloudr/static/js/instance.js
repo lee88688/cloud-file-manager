@@ -1,4 +1,5 @@
-var vm_file_list = new Vue({
+
+var vmFileList = new Vue({
     el: "#file-list-container",
     data: {
         items: [

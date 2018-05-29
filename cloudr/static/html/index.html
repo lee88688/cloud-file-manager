@@ -88,7 +88,11 @@
 
                     <div class="list-container" style="height: 1px;" id="file-list-container">
                         <ul class="list-group-flush ml-0 mr-0 pl-0 mb-0">
-                            <file-list-item v-for="(item, index) in items" v-bind:item="item" v-bind:key="index" v-bind:id="index"></file-list-item>
+                            <file-list-item v-for="(item, index) in items" 
+                                            v-bind:item="item" 
+                                            v-bind:key="item.fileType + item.fileName" 
+                                            v-bind:id="index"
+                            ></file-list-item>
 
                         </ul>
                     </div>
