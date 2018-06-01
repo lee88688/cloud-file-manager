@@ -15,7 +15,7 @@ def hello():
 @bp.route("/get-path-content", methods=["POST"])
 def get_path_content():
     # user_name = request.form['uname']
-    user_name = 'lee'
+    user_name = 'lee'  # todo: user name
     path = request.form['path']
     files = File.query.join(Users).join(FileType).\
                        filter(Users.username == user_name, File.path == path).\

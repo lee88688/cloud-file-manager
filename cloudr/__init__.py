@@ -3,9 +3,17 @@ import click
 from flask.cli import with_appcontext
 from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 
 db = SQLAlchemy()
+login_manager = LoginManager()
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    from . import model
+    return model.Users.get(int(user_id))
 
 
 @click.command("init-db")
@@ -50,10 +58,13 @@ def create_app():
     app.config['FILE_PATH'] = r'G:\cloud-file-manager\.files'
 
     db.init_app(app)
+    login_manager.init_app(app)
 
     from . import api, file
+    from . import views
     app.register_blueprint(api.bp)
     app.register_blueprint(file.bp)
+    app.register_blueprint(views.bp)
     
     app.cli.add_command(init_db_command)
     app.cli.add_command(init_file_type_table)
