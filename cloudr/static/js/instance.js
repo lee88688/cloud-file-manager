@@ -21,8 +21,13 @@ var vmFileList = new Vue({
 
 var vmBreadcrumb = new Vue({
     el: "#path-nav",
+    store,
     data: {
-        paths: ["Home", "Library", "Data"]
+    },
+    computed: {
+        ...Vuex.mapGetters({
+            paths: 'pathNameArray'
+        })
     }
 });
 
