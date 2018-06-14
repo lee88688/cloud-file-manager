@@ -28,13 +28,13 @@ def get_path_content():
         file_item['fileName'] = f.File.filename
         file_item['fileType'] = f.filetype
         file_item['fileSize'] = f.File.filesize
-        file_item['modifiedTime'] = f.File.uploaddate
+        file_item['modifiedTime'] = f.File.uploaddate.strftime("%Y-%m-%d %H:%M:%S")
         rv['files'].append(file_item)
     
     return jsonify(rv)
 
 
-@bp.route("delete-resource", methods=["POST"])
+@bp.route("/delete-resource", methods=["POST"])
 def delete_resource():
     dir_file_type = FileType.query.filter(FileType.filetype == 'directory').first().id
     user_name = request.form['userName']
@@ -54,7 +54,7 @@ def delete_resource():
         pass
 
 
-@bp.route("new-directory", methods=["POST"])
+@bp.route("/new-directory", methods=["POST"])
 def new_directory():
     user_name = request.form['userName']
     size = 0
@@ -72,7 +72,7 @@ def new_directory():
     return jsonify({"result": "success"})
 
 
-@bp.route("rename-resource", methods=["POST"])
+@bp.route("/rename-resource", methods=["POST"])
 def rename_resource():
     new_name = secure_filename(request.form['new-name'])
     old_name = request.form['old-name']

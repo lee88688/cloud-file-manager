@@ -1,21 +1,20 @@
 
 var vmFileList = new Vue({
     el: "#file-list-container",
+    store,
     data: {
-        items: [
-            {
-                id: 0, 
-                fileName: "我的文件", 
-                fileSize: "-", 
-                modifiedTime: "2014-06-20 15:06"
-            }, 
-            {
-                id: 0, 
-                fileName: "我的资源", 
-                fileSize: "-", 
-                modifiedTime: "2014-06-20 15:06"
-            }
-        ]
+    },
+    computed: {
+        ...Vuex.mapState({
+            items: "files",
+            path: "path",
+        }),
+    },
+    methods: {
+    },
+    mounted() {
+        let path = this.path;
+        store.dispatch("getCurrentPathContent", { path });
     }
 });
 
@@ -30,7 +29,6 @@ var vmBreadcrumb = new Vue({
         })
     }
 });
-
 
 
 function uploadInputClick() {
