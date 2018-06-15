@@ -16,7 +16,7 @@ def hello():
 def get_path_content():
     # user_name = request.form['uname']
     user_name = 'lee'  # todo: user name
-    path = request.form['path']
+    path = request.json['path']
     files = File.query.join(Users).join(FileType).\
                        filter(Users.username == user_name, File.path == path).\
                        add_columns(FileType.filetype).all()
@@ -37,21 +37,25 @@ def get_path_content():
 @bp.route("/delete-resource", methods=["POST"])
 def delete_resource():
     dir_file_type = FileType.query.filter(FileType.filetype == 'directory').first().id
-    user_name = request.form['userName']
-    path = request.form['path']  # todo: path check
-    file_name = request.form['filName']
-    file = File.query.join(Users).join(FileType).\
-                      filter(Users.username == user_name).\
-                      filter(File.path == path).\
-                      filter(File.filename == file_name).first()
-    if file:
-        if file.filetype != dir_file_type:
-            File.query.filter(File.id == file.id).delete()
+    user_name = "lee"  # todo: get user name
+    path = request.json['path']  # todo: path check
+    file_list = request.json["fileList"]
+    for file_name in file_list:
+        file = File.query.join(Users).join(FileType).\
+                        filter(Users.username == user_name).\
+                        filter(File.path == path).\
+                        filter(File.filename == file_name).first()
+        if file:
+            if file.filetype != dir_file_type:
+                File.query.filter(File.id == file.id).delete()
+                # todo: need to remove real file.
+            else:
+                # todo: delete the whole directory
+                pass
         else:
-            # todo: delete the whole directory
             pass
-    else:
-        pass
+    db.session.commit()
+    return jsonify({"result": "success"})
 
 
 @bp.route("/new-directory", methods=["POST"])

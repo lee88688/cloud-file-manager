@@ -1,4 +1,65 @@
 
+const CLICKTYPE = {
+    CHECKBOX: "checkbox",
+    SHARE: "share",
+    DOWNLOAD: "download",
+    MOVE: "move",
+    COPY: "copy",
+    RENAME: "rename",
+    DELETE: "delete",
+    SETSHARE: "setshare",
+    NAME: "name"
+};
+
+function deleteItems(path, fileList, indexList) {
+    let button = document.getElementById("confirm-delete-button");
+
+    button.onclick = function(event) {
+        store.dispatch("deleteFiles", { path, fileList, indexList });
+        $("#confirm-delete").modal("hide");
+    };
+    $("#confirm-delete").modal("show");
+}
+
+function clickProxy(event) {
+    let id = event.target.id;
+    if(!id.startsWith("list-item")) {
+        return;
+    }
+    
+    let clickTypeArray = id.split("-");
+    let clickType = clickTypeArray[2];
+    let index = parseInt(clickTypeArray[clickTypeArray.length - 1]);
+
+    switch(clickType) {
+        case CLICKTYPE.CHECKBOX:
+            break;
+        case CLICKTYPE.COPY:
+            break;
+        case CLICKTYPE.DELETE: {
+            let path = this.path;
+            let indexList = [index];
+            let fileList = [this.items[index].fileName];
+            deleteItems(path, fileList, indexList);
+            break;
+        }
+        case CLICKTYPE.DOWNLOAD:
+            break;
+        case CLICKTYPE.MOVE:
+            break;
+        case CLICKTYPE.NAME:
+            break;
+        case CLICKTYPE.RENAME:
+            break;
+        case CLICKTYPE.SETSHARE:
+            break;
+        case CLICKTYPE.SHARE:
+            break;
+        default:
+            break;
+    }
+}
+
 var vmFileList = new Vue({
     el: "#file-list-container",
     store,
@@ -11,6 +72,7 @@ var vmFileList = new Vue({
         }),
     },
     methods: {
+        clickProxy,
     },
     mounted() {
         let path = this.path;

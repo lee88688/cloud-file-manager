@@ -40,6 +40,12 @@ const store = new Vuex.Store({
             let length = files.length > newFiles.length ? files.length : newFiles.length;
             newFiles.sort(compareFileName);
             files.splice(0, length, ...newFiles);
+        },
+        deleteFiles({ files }, { indexList }) {
+            indexList.sort().reverse();
+            for(index of indexList) {
+                files.splice(index, 1);
+            }
         }
     },
     actions: {
@@ -50,8 +56,15 @@ const store = new Vuex.Store({
             context.commit("enterParentDir", payload);
         },
         async getCurrentPathContent(context, { path }) {
-            let newFiles = await apiGetPathContent(path);
+            let response = await apiGetPathContent(path);
+            let newFiles = response.files;
             context.commit("changeFiles", { newFiles });
+        },
+        async deleteFiles(context, {path, fileList, indexList}) {
+            let response = await apiDeleteResource(path, fileList);
+            if(response.result === "success") {
+                context.commit("deleteFiles", { indexList })
+            }
         }
     }
 });

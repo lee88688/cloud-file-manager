@@ -50,8 +50,8 @@
             <div class="col-md-9" style="font-size: 0.9rem;">
                 <div class="clearfix pt-2 pb-2">
                     <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#upload-modal">上传</button>
-                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">新建文件夹</button>
-                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
+                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" onclick="$('#new-directory').modal('show')">新建文件夹</button>
+                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" onclick="$('#confirm-delete').modal('show')">离线下载</button>
                     <form class="form-inline float-right">
                         <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
@@ -76,7 +76,7 @@
                         </li>
                     </ul>
 
-                    <div class="list-container" style="height: 1px;" id="file-list-container">
+                    <div class="list-container" style="height: 1px;" id="file-list-container" v-on:click="clickProxy($event)">
                         <ul class="list-group-flush ml-0 mr-0 pl-0 mb-0">
                             <file-list-item v-for="(item, index) in items" 
                                             v-bind:item="item" 
@@ -112,6 +112,45 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
         </template>
     </modal>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>确认删除</h5>
+                </div>
+                <div class="modal-body">
+                    <span>确认是否将所选文件删除？</span>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="confirm-delete-button">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="new-directory" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>添加目录</h5>
+                </div>
+                <div class="modal-body">
+                    <form class="input-group" id="new-directory-form">
+                        <div class="input-group-append">
+                            <span class="input-group-text">目录名称：</span>
+                        </div>
+                        <input type="text" class="form-control" name="dirName">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary">确定</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 

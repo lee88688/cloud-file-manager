@@ -5,10 +5,12 @@ let NEW_DIRECTORY = "/api/new-directory";
 let RENAME_RESOURCE = "/api/rename-resource";
 
 
-function makePromiseRequest(method, url, formData) {
+function makePromiseRequest(method, url, data) {
     return new Promise(function(resolve, reject) {
         let xhr = new XMLHttpRequest();
         xhr.open(method, url);
+        xhr.responseType = "json";
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onload = function() {
             if(this.status >= 200 && this.status < 300) {
                 resolve(this.response);
@@ -28,19 +30,20 @@ function makePromiseRequest(method, url, formData) {
                 result: "failure"
             });
         };
-        xhr.send(formData);
+        xhr.send(data);
     });
 }
 
 
 async function apiGetPathContent(path) {
-    let formData = new FormData();
+    let data = {};
+    data["path"] = path;
+    let response = await makePromiseRequest("POST", GET_PATH_CONTENT, JSON.stringify(data));
+    return response;
+}
 
-    // formData.append("username", userName);
-    formData.append("path", path);
-    let responseJSON = await makePromiseRequest("POST", GET_PATH_CONTENT, formData);
-    let response = JSON.parse(responseJSON);
-    if(response.result === 'success') {
-        return response.files;
-    }
+async function apiDeleteResource(path, fileList) {
+    let data =  {path, fileList};
+    let response = await makePromiseRequest("POST", DELETE_RESOURCE, JSON.stringify(data));
+    return response;
 }
