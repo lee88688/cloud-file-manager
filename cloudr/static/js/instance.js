@@ -21,6 +21,17 @@ function deleteItems(path, fileList, indexList) {
     $("#confirm-delete").modal("show");
 }
 
+function renameItem(path, oldName, index) {
+    let button = document.getElementById("rename-button");
+
+    button.onclick = function(event) {
+        let newName = document.getElementById("rename-input").value;
+        store.dispatch("rename", {path, oldName, newName, index});
+        $("#rename").modal("hide");
+    }
+    $("#rename").modal("show");
+}
+
 function clickProxy(event) {
     let id = event.target.id;
     if(!id.startsWith("list-item")) {
@@ -49,8 +60,12 @@ function clickProxy(event) {
             break;
         case CLICKTYPE.NAME:
             break;
-        case CLICKTYPE.RENAME:
+        case CLICKTYPE.RENAME: {
+            let path = this.path;
+            let oldName = this.items[index].fileName;
+            renameItem(path, oldName, index);
             break;
+        }
         case CLICKTYPE.SETSHARE:
             break;
         case CLICKTYPE.SHARE:

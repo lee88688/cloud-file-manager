@@ -47,3 +47,15 @@ async function apiDeleteResource(path, fileList) {
     let response = await makePromiseRequest("POST", DELETE_RESOURCE, JSON.stringify(data));
     return response;
 }
+
+async function apiNewDirectory(path, dirName) {
+    let data = {path, dirName};
+    let response = await makePromiseRequest("POST", NEW_DIRECTORY, JSON.stringify(data));
+    return response;
+}
+
+async function apiRenameResource(path, oldname, newname) {
+    let data = {path, oldname, newname};
+    let response = await makePromiseRequest("POST", RENAME_RESOURCE, JSON.stringify(data));
+    return response;
+}

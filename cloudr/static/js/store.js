@@ -46,6 +46,14 @@ const store = new Vuex.Store({
             for(index of indexList) {
                 files.splice(index, 1);
             }
+        },
+        addDir({ files }, { file }) {
+            files.push(file);
+        },
+        rename({ files }, { newName, index}) {
+            let file = files[index];
+            file.fileName = newName;
+            files.splice(index, 1, file);
         }
     },
     actions: {
@@ -64,6 +72,18 @@ const store = new Vuex.Store({
             let response = await apiDeleteResource(path, fileList);
             if(response.result === "success") {
                 context.commit("deleteFiles", { indexList })
+            }
+        },
+        async newDirectory(context, {path, dirName}) {
+            let response = await apiNewDirectory(path, dirName);
+            if(response.result === "success") {
+                context.commit("addDir", { file: response.file });
+            }
+        },
+        async rename(context, {path, oldName, newName, index}) {
+            let response = await apiRenameResource(path, oldName, newName);
+            if(response.result === "success") {
+                context.commit("rename", { newName, index });
             }
         }
     }

@@ -60,12 +60,12 @@ def delete_resource():
 
 @bp.route("/new-directory", methods=["POST"])
 def new_directory():
-    user_name = request.form['userName']
+    user_name = "lee"  # todo: get current user name.
     size = 0
-    path = request.form['path']  # todo: path check
-    md5 = request.form['md5']
+    path = request.json['path']  # todo: path check
+    md5 = "-"
     upload_date = datetime.now()
-    file_name = secure_filename(request.files['dirName'])
+    file_name = secure_filename(request.json['dirName'])
     file_type = FileType.query.filter(FileType.filetype == 'directory').first().id
     user_id = Users.query.filter(Users.username == user_name).first().id  # todo: catch user_name is not found
 
@@ -73,16 +73,27 @@ def new_directory():
     db.session.add(file)
     db.session.commit()
 
-    return jsonify({"result": "success"})
+    file_info = {}
+    file_info["id"] = file.id
+    file_info["fileName"] = file.filename
+    file_info["fileType"] = "directory"
+    file_info["fileSize"] = file.filesize
+    file_info["modifiedTime"] = file.uploaddate.strftime("%Y-%m-%d %H:%M:%S")
+
+    return jsonify({"result": "success", "file": file_info})
 
 
 @bp.route("/rename-resource", methods=["POST"])
 def rename_resource():
-    new_name = secure_filename(request.form['new-name'])
-    old_name = request.form['old-name']
-    path = request.form['path']
-    user_name = request.form['uname']
+    new_name = secure_filename(request.json['newname'])
+    old_name = request.json['oldname']
+    path = request.json['path']
+    user_name = "lee"  # todo: get current user name.
 
-    File.query.join(Users).filter(Users.username == user_name, 
-                                  File.path == path, 
-                                  File.filename == old_name).update({'filename': new_name})
+    file = File.query.join(Users).filter(Users.username == user_name, 
+                                       File.path == path, 
+                                       File.filename == old_name).first()
+    File.query.filter(File.id == file.id).update({'filename': new_name})
+    db.session.commit()
+
+    return jsonify({"result": "success"})
