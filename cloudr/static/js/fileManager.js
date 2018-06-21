@@ -19,4 +19,15 @@ $(document).ready(function () {
         store.dispatch("newDirectory", { dirName, path });
         $("#new-directory").modal("hide");
     };
+
+    let selectAllCheckbox = document.getElementById("select-all-checkbox");
+    selectAllCheckbox.onclick = function(event) {
+        let value = event.target.checked;
+        store.dispatch("selectAll", {value});
+        let list = document.querySelectorAll('.list-container input[type="checkbox"]');
+        for(let item of list.values()) {
+            item.checked = value;
+        }
+        console.log("value:" + value);
+    }
 });

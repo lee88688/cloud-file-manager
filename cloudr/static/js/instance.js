@@ -32,6 +32,20 @@ function renameItem(path, oldName, index) {
     $("#rename").modal("show");
 }
 
+function clickCheckbox(index, value) {
+    if(value === false) {
+        let allCheckbox = document.getElementById("select-all-checkbox");
+        if(allCheckbox.checked === true) {
+            allCheckbox.checked = false;
+        }
+    }
+    store.dispatch("selectOne", {index, value});
+}
+
+function clickName(dirName) {
+    store.dispatch("enterDir", {dirName});
+}
+
 function clickProxy(event) {
     let id = event.target.id;
     if(!id.startsWith("list-item")) {
@@ -43,8 +57,10 @@ function clickProxy(event) {
     let index = parseInt(clickTypeArray[clickTypeArray.length - 1]);
 
     switch(clickType) {
-        case CLICKTYPE.CHECKBOX:
+        case CLICKTYPE.CHECKBOX: {
+            clickCheckbox(index, event.target.checked);
             break;
+        }
         case CLICKTYPE.COPY:
             break;
         case CLICKTYPE.DELETE: {
@@ -58,8 +74,11 @@ function clickProxy(event) {
             break;
         case CLICKTYPE.MOVE:
             break;
-        case CLICKTYPE.NAME:
+        case CLICKTYPE.NAME: {
+            let dirName = this.items[index].fileName;
+            clickName(dirName);
             break;
+        }
         case CLICKTYPE.RENAME: {
             let path = this.path;
             let oldName = this.items[index].fileName;
@@ -91,7 +110,7 @@ var vmFileList = new Vue({
     },
     mounted() {
         let path = this.path;
-        store.dispatch("getCurrentPathContent", { path });
+        store.dispatch("getCurrentPathContent");
     }
 });
 
@@ -119,7 +138,7 @@ function getFileName() {
         this.fileName = uploadInput.files[0].name;
     }
     else{
-        this.fileName = "点击选择文件";        
+        this.fileName = "点击选择文件";
     }
 }
 
@@ -134,7 +153,7 @@ function upload_file() {
     let file = uploadInput.files[0];
     fd.append("userid", 1);
     fd.append("filesize", file.size);
-    fd.append("path", "/");
+    fd.append("path", store.state.path);
     
     let reader = new FileReader();
     reader.onload = function(event) {
@@ -142,9 +161,12 @@ function upload_file() {
         fd.append("md5", md5Result);
         console.log(event);
         console.log(fd);
-        let xhr = new XMLHttpRequest();
-        xhr.open("POST", "/file/uploads");
-        xhr.send(fd);
+        makeFormDataPromiseRequest("POST", "/file/uploads", fd).then((value) => {
+            if(value.result === "success") {
+                store.dispatch("getCurrentPathContent");
+                $("#upload-modal").modal("hide");
+            }
+        });
     };
 
     reader.readAsArrayBuffer(file);

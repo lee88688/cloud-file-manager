@@ -10,13 +10,19 @@ let fileListItemTemplate = `
         </span>
         <div class="float-right" style="display: none;">
             <span>
-                <a href="javascript:void(0);" v-bind:id="'list-item-share-' + id">分享</a>
+                <a href="javascript:void(0);" v-bind:id="'list-item-share-' + id">
+                    <i class="mdi mdi-share-variant li-btn-icon"></i>
+                </a>
             </span>
             <span>
-                <a href="javascript:void(0);" v-bind:id="'list-item-download-' + id">下载</a>
+                <a href="javascript:void(0);" v-bind:id="'list-item-download-' + id">
+                    <i class="mdi mdi-download li-btn-icon"></i>
+                </a>
             </span>
             <span>
-                <a href="javascript:void(0);" v-bind:id="'list-item-more-' + id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</a>
+                <a href="javascript:void(0);" v-bind:id="'list-item-more-' + id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="mdi mdi-dots-horizontal li-btn-icon"></i>
+                </a>
                 <div class="dropdown-menu" v-bind:aria-labelledby="'list-item-more-' + id" style="font-size: 0.9rem;">
                     <button class="dropdown-item" type="button" v-bind:id="'list-item-move-' + id">移动</button>
                     <button class="dropdown-item" type="button" v-bind:id="'list-item-copy-' + id">复制</button>
@@ -27,10 +33,40 @@ let fileListItemTemplate = `
             </span>
         </div>
     </div>
-    <div class="col-2">{{ item.fileSize }}</div>
+    <div class="col-2">{{ formatFileSize(item.fileSize, item.fileType) }}</div>
     <div class="col-3">{{ item.modifiedTime }}</div>
 </li>
 `;
+
+const KB = 1024;
+const MB = KB * 1024;
+const GB = MB * 1024;
+
+function formatUnit(size, divisor, unit) {
+    if(size < 0) {
+        throw RangeError("Size may not be a negative number.");
+    }
+    return (size / divisor).toFixed(1) + unit;
+}
+
+function formatFileSize(size, fileType) {
+    if(fileType === "directory") {
+        return "-";
+    }
+
+    if(size < KB) {
+        return size + "B";
+    }
+    else if(size >= KB && size < MB) {
+        return formatUnit(size, KB, "K");
+    }
+    else if(size >= MB && size < GB) {
+        return formatUnit(size, MB, "M");
+    }
+    else {
+        return formatUnit(size, GB, "G");
+    }
+}
 
 function fileListMouseEnter(element) {
     var operateButton = element.querySelector(".float-right");
@@ -47,7 +83,9 @@ Vue.component('file-list-item', {
     props: ["id", "item"],
     methods: {
         fileListMouseEnter,
-        fileListMouseLeave
-    }
+        fileListMouseLeave,
+        formatFileSize
+    },
+    filters: {}
 });
 

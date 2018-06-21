@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css" media="all">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
         crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/main.css">
@@ -31,7 +32,7 @@
 
     <div class="contianer-fluid">
         <div class="row ml-0 mr-0">
-            <div class="col-md-3 d-none d-md-block bg-light">
+            <div class="col-md-2 d-none d-md-block bg-light">
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link" href="javascript:void(0);">全部文件</a>
@@ -47,11 +48,15 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-9" style="font-size: 0.9rem;">
+            <div class="col-md-10" style="font-size: 0.9rem;">
                 <div class="clearfix pt-2 pb-2">
-                    <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#upload-modal">上传</button>
-                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" onclick="$('#new-directory').modal('show')">新建文件夹</button>
-                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" onclick="$('#confirm-delete').modal('show')">离线下载</button>
+                    <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#upload-modal">
+                        <i class="mdi mdi-upload btn-icon"></i>上传
+                    </button>
+                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" onclick="$('#new-directory').modal('show')">
+                        <i class="mdi mdi-folder-plus btn-icon"></i>新建文件夹
+                    </button>
+                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
                     <form class="form-inline float-right">
                         <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
@@ -65,7 +70,7 @@
                 <div>
                     <ul class="list-group-flush row ml-0 mr-0 pl-0 mb-0">
                         <li class="list-group-item list-group-item-action col-7 bottom-border">
-                            <input type="checkbox" class="mr-1 checkbox">
+                            <input type="checkbox" class="mr-1 checkbox" id="select-all-checkbox">
                             <span>文件名</span>
                         </li>
                         <li class="list-group-item list-group-item-action col-2 bottom-border">

@@ -34,6 +34,34 @@ function makePromiseRequest(method, url, data) {
     });
 }
 
+function makeFormDataPromiseRequest(method, url, data) {
+    return new Promise(function(resolve, reject) {
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+        xhr.responseType = "json";
+        xhr.onload = function() {
+            if(this.status >= 200 && this.status < 300) {
+                resolve(this.response);
+            }
+            else {
+                reject({
+                    status: this.status,
+                    statusText: this.statusText,
+                    result: "failure"
+                });
+            }
+        };
+        xhr.onerror = function() {
+            reject({
+                status: this.status,
+                statusText: this.statusText,
+                result: "failure"
+            });
+        };
+        xhr.send(data);
+    });
+}
+
 
 async function apiGetPathContent(path) {
     let data = {};

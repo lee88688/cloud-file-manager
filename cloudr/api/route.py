@@ -1,6 +1,7 @@
+import os
 import hashlib
 from datetime import datetime
-from flask import jsonify, request
+from flask import jsonify, request, current_app
 from werkzeug.utils import secure_filename 
 from cloudr import db
 from cloudr.model import File, Users, FileType
@@ -47,11 +48,13 @@ def delete_resource():
                         filter(File.filename == file_name).first()
         if file:
             if file.filetype != dir_file_type:
+                real_file_name = current_app.config["FILE_PATH"] + os.sep + file.md5
                 File.query.filter(File.id == file.id).delete()
-                # todo: need to remove real file.
+                if os.path.isfile(real_file_name):
+                    os.remove(real_file_name)
             else:
                 # todo: delete the whole directory
-                pass
+                File.query.filter(File.id == file.id).delete()
         else:
             pass
     db.session.commit()
@@ -65,7 +68,8 @@ def new_directory():
     path = request.json['path']  # todo: path check
     md5 = "-"
     upload_date = datetime.now()
-    file_name = secure_filename(request.json['dirName'])
+    # file_name = secure_filename(request.json['dirName'])
+    file_name = request.json['dirName']
     file_type = FileType.query.filter(FileType.filetype == 'directory').first().id
     user_id = Users.query.filter(Users.username == user_name).first().id  # todo: catch user_name is not found
 

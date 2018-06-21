@@ -1,7 +1,8 @@
 const store = new Vuex.Store({
     state: {
         path: '/',
-        files: []
+        files: [],
+        select: []
     },
     getters: {
         pathNameArray(state) {
@@ -31,15 +32,17 @@ const store = new Vuex.Store({
                 parentDirName = parentDirName.toString().replace(/\//g, "");  // remove / in upperDirName
                 if(nameArr[index] === parentDirName) {
                     path = nameArr.slice(0, index + 1).join('/');
+                    path = path.startsWith("Home") ? path.replace("Home", "") : path;
                     path = (path === "") ? "/" : path;
                     state.path = path;
                 }
             }
         },
-        changeFiles({ files }, { newFiles }) {
+        changeFiles({ files, select }, { newFiles }) {
             let length = files.length > newFiles.length ? files.length : newFiles.length;
             newFiles.sort(compareFileName);
             files.splice(0, length, ...newFiles);
+            select.splice(0, length, ...getFalseIter(newFiles.length));
         },
         deleteFiles({ files }, { indexList }) {
             indexList.sort().reverse();
@@ -54,16 +57,36 @@ const store = new Vuex.Store({
             let file = files[index];
             file.fileName = newName;
             files.splice(index, 1, file);
+        },
+        selectOne({ select }, { index, value }) {
+            if(typeof(value) !== "boolean") {
+                throw TypeError("Value must be boolean.");
+            }
+            select.splice(index, 1, value);
+        },
+        selectAll({ select }, { value }) {
+            if(typeof(value) !== "boolean") {
+                throw TypeError("Value must be boolean.");
+            }
+            if(value === true) {
+                select.splice(0, select.length, ...getTrueIter(select.length));
+            }
+            else {
+                select.splice(0, select.length, ...getFalseIter(select.length));
+            }
         }
     },
     actions: {
         enterDir(context, payload) {
             context.commit("enterDir", payload);
+            context.dispatch("getCurrentPathContent");
         },
         enterParentDir(context, payload) {
             context.commit("enterParentDir", payload);
+            context.dispatch("getCurrentPathContent");
         },
-        async getCurrentPathContent(context, { path }) {
+        async getCurrentPathContent(context) {
+            let path = context.state.path;
             let response = await apiGetPathContent(path);
             let newFiles = response.files;
             context.commit("changeFiles", { newFiles });
@@ -85,6 +108,12 @@ const store = new Vuex.Store({
             if(response.result === "success") {
                 context.commit("rename", { newName, index });
             }
+        },
+        selectOne(context, payload) {
+            context.commit("selectOne", payload);
+        },
+        selectAll(context, payload) {
+            context.commit("selectAll", payload);
         }
     }
 });
@@ -149,5 +178,17 @@ function compareFileNameWithSize(f1, f2) {
         }
 
         return rv;
+    }
+}
+
+function* getFalseIter(length) {
+    for(let i = 0; i < length; i++) {
+        yield false;
+    }
+}
+
+function* getTrueIter(length) {
+    for(let i = 0; i < length; i++) {
+        yield true;
     }
 }
