@@ -55,6 +55,8 @@ function clickProxy(event) {
     let clickTypeArray = id.split("-");
     let clickType = clickTypeArray[2];
     let index = parseInt(clickTypeArray[clickTypeArray.length - 1]);
+    let fileName = this.items[index].fileName;
+    let fileType = this.items[index].fileType;
 
     switch(clickType) {
         case CLICKTYPE.CHECKBOX: {
@@ -66,7 +68,7 @@ function clickProxy(event) {
         case CLICKTYPE.DELETE: {
             let path = this.path;
             let indexList = [index];
-            let fileList = [this.items[index].fileName];
+            let fileList = [fileName];
             deleteItems(path, fileList, indexList);
             break;
         }
@@ -75,13 +77,14 @@ function clickProxy(event) {
         case CLICKTYPE.MOVE:
             break;
         case CLICKTYPE.NAME: {
-            let dirName = this.items[index].fileName;
-            clickName(dirName);
+            if(fileType === "directory"){
+                clickName(fileName);
+            }
             break;
         }
         case CLICKTYPE.RENAME: {
             let path = this.path;
-            let oldName = this.items[index].fileName;
+            let oldName = fileName;
             renameItem(path, oldName, index);
             break;
         }

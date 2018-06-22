@@ -69,7 +69,7 @@ def new_directory():
     md5 = "-"
     upload_date = datetime.now()
     # file_name = secure_filename(request.json['dirName'])
-    file_name = request.json['dirName']
+    file_name = request.json['dirName']  # todo: check file name to void repeat
     file_type = FileType.query.filter(FileType.filetype == 'directory').first().id
     user_id = Users.query.filter(Users.username == user_name).first().id  # todo: catch user_name is not found
 
