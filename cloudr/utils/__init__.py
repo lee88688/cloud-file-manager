@@ -13,6 +13,6 @@ def api_result(result, reason=None, **kwargs):
     if reason:
         rv["reason"] = reason
     
-    rv.update(kwargs);
+    rv.update(kwargs)
 
     return rv

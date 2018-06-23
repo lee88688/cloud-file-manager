@@ -12,177 +12,173 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Cloudr</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Cloudr</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="javascript:void(0);">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <div class="contianer-fluid">
-        <div class="row ml-0 mr-0">
-            <div class="col-md-2 d-none d-md-block bg-light">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);">全部文件</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);">图片</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);">文档</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="javascript:void(0);">视频</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="javascript:void(0);">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-10" style="font-size: 0.9rem;">
-                <div class="clearfix pt-2 pb-2">
-                    <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#upload-modal">
-                        <i class="mdi mdi-upload btn-icon"></i>上传
-                    </button>
-                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" onclick="$('#new-directory').modal('show')">
-                        <i class="mdi mdi-folder-plus btn-icon"></i>新建文件夹
-                    </button>
-                    <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
-                    <form class="form-inline float-right">
-                        <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
-                    </form>
-                </div>
+        </nav>
 
-                <nav aria-label="breadcrumb" id="path-nav">
-                    <breadcrumb v-bind:paths="paths"></breadcrumb>
-                </nav>
-
-                <div>
-                    <ul class="list-group-flush row ml-0 mr-0 pl-0 mb-0">
-                        <li class="list-group-item list-group-item-action col-7 bottom-border">
-                            <input type="checkbox" class="mr-1 checkbox" id="select-all-checkbox">
-                            <span>文件名</span>
+        <div class="contianer-fluid">
+            <div class="row ml-0 mr-0">
+                <div class="col-md-2 d-none d-md-block bg-light">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);">全部文件</a>
                         </li>
-                        <li class="list-group-item list-group-item-action col-2 bottom-border">
-                            大小
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);">图片</a>
                         </li>
-                        <li class="list-group-item list-group-item-action col-3 bottom-border">
-                            修改日期
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);">文档</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="javascript:void(0);">视频</a>
                         </li>
                     </ul>
+                </div>
+                <div class="col-md-10" style="font-size: 0.9rem;">
+                    <div class="clearfix pt-2 pb-2">
+                        <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#upload-modal">
+                            <i class="mdi mdi-upload btn-icon"></i>上传
+                        </button>
+                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" onclick="$('#new-directory').modal('show')">
+                            <i class="mdi mdi-folder-plus btn-icon"></i>新建文件夹
+                        </button>
+                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
+                        <form class="form-inline float-right">
+                            <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
+                        </form>
+                    </div>
 
-                    <div class="list-container" style="height: 1px;" id="file-list-container" v-on:click="clickProxy($event)">
-                        <ul class="list-group-flush ml-0 mr-0 pl-0 mb-0">
-                            <file-list-item v-for="(item, index) in items" 
-                                            v-bind:item="item" 
-                                            v-bind:key="item.fileType + item.fileName" 
-                                            v-bind:id="index"
-                            ></file-list-item>
+                    <nav aria-label="breadcrumb" id="path-nav">
+                        <breadcrumb v-bind:paths="paths"></breadcrumb>
+                    </nav>
 
+                    <div>
+                        <ul class="list-group-flush row ml-0 mr-0 pl-0 mb-0">
+                            <li class="list-group-item list-group-item-action col-7 bottom-border">
+                                <input type="checkbox" class="mr-1 checkbox" id="select-all-checkbox">
+                                <span>文件名</span>
+                            </li>
+                            <li class="list-group-item list-group-item-action col-2 bottom-border">
+                                大小
+                            </li>
+                            <li class="list-group-item list-group-item-action col-3 bottom-border">
+                                修改日期
+                            </li>
                         </ul>
+
+                        <div class="list-container" style="height: 1px;" id="file-list-container" v-on:click="clickProxy($event)">
+                            <ul class="list-group-flush ml-0 mr-0 pl-0 mb-0">
+                                <file-list-item v-for="(item, index) in items" v-bind:item="item" v-bind:key="item.fileType + item.fileName" v-bind:id="index"></file-list-item>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upload Modal -->
+        <modal id="upload-modal">
+            <template slot="header">
+                <h5 class="modal-title" id="modal-title">上传文件</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </template>
+
+            <form id="upload-form" action="/api/uploads" method="POST" enctype="multipart/form-data" slot="body">
+                <div class="form-group row" style="margin-left: 0px; margin-right: 0px;">
+                    <input id="upload-input" v-on:change="getFileName()" type="file" class="form-control-file" name="file" style="display: none;">
+                    <label class="col col-form-label upload-box" v-on:click="uploadInputClick()">{{ fileName }}</label>
+                </div>
+            </form>
+
+            <template slot="footer">
+                <button class="btn btn-primary" v-on:click="upload_file()">上传</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </template>
+        </modal>
+
+        <!-- Comfirm delete Modal -->
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>确认删除</h5>
+                    </div>
+                    <div class="modal-body">
+                        <span>确认是否将所选文件删除？</span>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="confirm-delete-button">确定</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Directory Modal -->
+        <div class="modal fade" id="new-directory" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5>添加目录</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="input-group" id="new-directory-form">
+                            <div class="input-group-append">
+                                <span class="input-group-text">目录名称：</span>
+                            </div>
+                            <input type="text" id="new-dir-name" class="form-control" name="dirName">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="new-directory-button">确定</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rename Modal -->
+        <div class="modal fade" id="rename" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 id="rename-title">重命名</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="input-group">
+                            <div class="input-group-append">
+                                <span class="input-group-text">新名称：</span>
+                            </div>
+                            <input type="text" id="rename-input" class="form-control" name="newname">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="rename-button">确定</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Upload Modal -->
-    <modal id="upload-modal">
-        <template slot="header">
-            <h5 class="modal-title" id="modal-title">上传文件</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </template>
-
-        <form id="upload-form" action="/api/uploads" method="POST" enctype="multipart/form-data" slot="body">
-            <div class="form-group row" style="margin-left: 0px; margin-right: 0px;">
-                <input id="upload-input" v-on:change="getFileName()" type="file" class="form-control-file" name="file" style="display: none;">
-                <label class="col col-form-label upload-box" v-on:click="uploadInputClick()">{{ fileName }}</label>
-            </div>
-        </form>
-
-        <template slot="footer">
-            <button class="btn btn-primary" v-on:click="upload_file()">上传</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-        </template>
-    </modal>
-
-    <!-- Comfirm delete Modal -->
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>确认删除</h5>
-                </div>
-                <div class="modal-body">
-                    <span>确认是否将所选文件删除？</span>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="confirm-delete-button">确定</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- New Directory Modal -->
-    <div class="modal fade" id="new-directory" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>添加目录</h5>
-                </div>
-                <div class="modal-body">
-                    <form class="input-group" id="new-directory-form">
-                        <div class="input-group-append">
-                            <span class="input-group-text">目录名称：</span>
-                        </div>
-                        <input type="text" id="new-dir-name" class="form-control" name="dirName">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="new-directory-button">确定</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Rename Modal -->
-    <div class="modal fade" id="rename" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 id="rename-title">重命名</h5>
-                </div>
-                <div class="modal-body">
-                    <form class="input-group">
-                        <div class="input-group-append">
-                            <span class="input-group-text">新名称：</span>
-                        </div>
-                        <input type="text" id="rename-input" class="form-control" name="newname">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="rename-button">确定</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
 
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
