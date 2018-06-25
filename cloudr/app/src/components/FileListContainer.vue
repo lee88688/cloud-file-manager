@@ -16,59 +16,59 @@ import FileListItem from './FileListItem'
 import $ from 'jquery'
 
 const CLICKTYPE = {
-    CHECKBOX: "checkbox",
-    SHARE: "share",
-    DOWNLOAD: "download",
-    MOVE: "move",
-    COPY: "copy",
-    RENAME: "rename",
-    DELETE: "delete",
-    SETSHARE: "setshare",
-    NAME: "name"
+    CHECKBOX: 'checkbox',
+    SHARE: 'share',
+    DOWNLOAD: 'download',
+    MOVE: 'move',
+    COPY: 'copy',
+    RENAME: 'rename',
+    DELETE: 'delete',
+    SETSHARE: 'setshare',
+    NAME: 'name'
 }
 
 function deleteItems(store, path, fileList, indexList) {
-    let button = document.getElementById("confirm-delete-button")
+    let button = document.getElementById('confirm-delete-button')
 
     button.onclick = function(event) {
-        store.dispatch("deleteFiles", { path, fileList, indexList })
-        $("#confirm-delete").modal("hide")
+        store.dispatch('deleteFiles', { path, fileList, indexList })
+        $('#confirm-delete').modal('hide')
     }
-    $("#confirm-delete").modal("show")
+    $('#confirm-delete').modal('show')
 }
 
 function renameItem(store, path, oldName, index) {
-    let button = document.getElementById("rename-button")
+    let button = document.getElementById('rename-button')
 
     button.onclick = function(event) {
-        let newName = document.getElementById("rename-input").value
-        store.dispatch("rename", {path, oldName, newName, index})
-        $("#rename").modal("hide")
+        let newName = document.getElementById('rename-input').value
+        store.dispatch('rename', { path, oldName, newName, index })
+        $('#rename').modal('hide')
     }
-    $("#rename").modal("show")
+    $('#rename').modal('show')
 }
 
 function clickCheckbox(store, index, value) {
     if (value === false) {
-        let allCheckbox = document.getElementById("select-all-checkbox")
+        let allCheckbox = document.getElementById('select-all-checkbox')
         if (allCheckbox.checked === true) {
             allCheckbox.checked = false
         }
     }
-    store.dispatch("selectOne", {index, value})
+    store.dispatch('selectOne', { index, value })
 }
 
 function clickName(store, dirName) {
-    store.dispatch("enterDir", {dirName})
+    store.dispatch('enterDir', { dirName })
 }
 
 function clickProxy(event) {
     let id = event.target.id
-    if (!id.startsWith("list-item")) {
+    if (!id.startsWith('list-item')) {
         return
     }
 
-    let clickTypeArray = id.split("-")
+    let clickTypeArray = id.split('-')
     let clickType = clickTypeArray[2]
     let index = parseInt(clickTypeArray[clickTypeArray.length - 1])
     let fileName = this.items[index].fileName
@@ -94,7 +94,7 @@ function clickProxy(event) {
         case CLICKTYPE.MOVE:
             break
         case CLICKTYPE.NAME: {
-            if (fileType === "directory") {
+            if (fileType === 'directory') {
                 clickName(store, fileName)
             }
             break
@@ -128,7 +128,7 @@ export default {
         clickProxy
     },
     mounted() {
-        this.$store.dispatch("getCurrentPathContent")
+        this.$store.dispatch('getCurrentPathContent')
     }
 }
 </script>

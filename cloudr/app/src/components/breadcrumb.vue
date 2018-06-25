@@ -12,32 +12,31 @@
 </template>
 
 <script>
-import Vuex from 'vuex'
+import Vuex from "vuex"
 
 export default {
     name: "breadcrumb",
     computed: {
         ...Vuex.mapGetters({
-            paths: 'pathNameArray'
+            paths: "pathNameArray"
         })
     },
     methods: {
-        ...Vuex.mapActions([
-            'enterParentDir'
-        ]),
+        ...Vuex.mapActions(["enterParentDir"]),
         changeDir(event) {
             let id = event.target.parentElement.id
             let parentDirName = event.target.innerText
             if (id && parentDirName) {
-                let arr = id.split('-')
+                let arr = id.split("-")
                 let index = parseInt(arr[arr.length - 1])
                 if (Number.isNaN(index)) {
-                    throw new TypeError(event.target.outerHTML + "id is not valid")
+                    throw new TypeError(
+                        event.target.outerHTML + "id is not valid"
+                    )
                 }
-                this.enterParentDir({parentDirName, index})
+                this.enterParentDir({ parentDirName, index })
             }
         }
     }
 }
-
 </script>

@@ -2,8 +2,7 @@
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Cloudr</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -89,17 +88,19 @@
 
 <script>
 import $ from 'jquery'
-import breadcrumb from "./components/breadcrumb"
-import UploadModal from "./components/UploadModal"
-import RenameModal from "./components/RenameModal"
-import NewDirectoryModal from "./components/NewDirectoryModal"
-import ComfirmDeleteModal from "./components/ComfirmDeleteModal"
-import FileListContainer from "./components/FileListContainer"
+import breadcrumb from './components/breadcrumb'
+import UploadModal from './components/UploadModal'
+import RenameModal from './components/RenameModal'
+import NewDirectoryModal from './components/NewDirectoryModal'
+import ComfirmDeleteModal from './components/ComfirmDeleteModal'
+import FileListContainer from './components/FileListContainer'
 
 function selectAllCheckbox(event) {
     let value = event.target.checked
-    this.$store.dispatch("selectAll", {value})
-    let list = document.querySelectorAll('.list-container input[type="checkbox"]')
+    this.$store.dispatch('selectAll', { value })
+    let list = document.querySelectorAll(
+        '.list-container input[type="checkbox"]'
+    )
     for (let item of list.values()) {
         item.checked = value
     }
@@ -110,7 +111,7 @@ function showNewDirectoryModal(event) {
 }
 
 export default {
-    name: "App",
+    name: 'App',
     components: {
         breadcrumb,
         UploadModal,
@@ -130,7 +131,8 @@ export default {
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import '@mdi/font/css/materialdesignicons.css';
 
-html, body {
+html,
+body {
     height: 100%;
     width: 100%;
 }
@@ -156,7 +158,7 @@ div.contianer-fluid > div {
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
-    border-bottom: 1px solid rgba(0, 0, 0, .125) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
     margin-bottom: -1px !important;
 }
 
@@ -209,5 +211,4 @@ div.contianer-fluid > div {
     line-height: 1.2rem;
     vertical-align: text-bottom;
 }
-
 </style>
