@@ -8,6 +8,7 @@ flask = "*"
 flask-sqlalchemy = "*"
 click = "*"
 flask-login = "*"
+requests = "*"
 
 [dev-packages]
 pylint = "*"

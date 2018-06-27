@@ -4,6 +4,7 @@ from .model import Users
 
 bp = Blueprint("views", __name__)
 
+
 @bp.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "POST":

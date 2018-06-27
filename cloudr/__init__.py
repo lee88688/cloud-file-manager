@@ -4,9 +4,9 @@ from flask.cli import with_appcontext
 from flask import Flask, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from .model import db
 
 
-db = SQLAlchemy()
 login_manager = LoginManager()
 
 
