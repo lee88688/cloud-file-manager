@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 click = "*"
 flask-login = "*"
 requests = "*"
+celery = {extras = ["redis"]}
 
 [dev-packages]
 pylint = "*"

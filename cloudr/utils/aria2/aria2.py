@@ -40,6 +40,6 @@ class Aria2(object):
             r = func(*args, **kargs)
             if 'error' not in r.json():
                 self.__dict__[attr] = func
-            return r
+            return r.json()
 
         return wrap

@@ -6,6 +6,7 @@
         <div class="col-7">
             <input type="checkbox" class="mr-1 checkbox" v-bind:id="'list-item-checkbox-' + id">
             <span>
+                <i v-bind:class="['mdi', 'li-icon', icon]"></i>
                 <a href="javascript:void(0);" v-bind:id="'list-item-name-' + id">{{ item.fileName }}</a>
             </span>
             <div class="float-right" style="display: none;">
@@ -39,6 +40,8 @@
 </template>
 
 <script>
+import { getIcon } from '../lib/icons'
+
 const KB = 1024
 const MB = KB * 1024
 const GB = MB * 1024
@@ -85,6 +88,11 @@ export default {
         fileListMouseEnter,
         fileListMouseLeave,
         formatFileSize
+    },
+    computed: {
+        icon() {
+            return getIcon(this.item.fileName, this.item.fileType)
+        }
     }
 }
 </script>

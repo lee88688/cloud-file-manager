@@ -13,6 +13,12 @@
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
+                    <li>
+                        <form class="form-inline">
+                            <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
+                        </form>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -44,10 +50,6 @@
                             <i class="mdi mdi-folder-plus btn-icon"></i>新建文件夹
                         </button>
                         <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
-                        <form class="form-inline float-right">
-                            <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
-                        </form>
                     </div>
 
                     <breadcrumb/>

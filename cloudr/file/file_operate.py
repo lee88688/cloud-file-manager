@@ -2,7 +2,8 @@ import os
 from datetime import datetime
 from werkzeug.utils import secure_filename 
 from flask import send_from_directory, current_app, request, jsonify, session
-from cloudr import model, db
+from cloudr import model
+from cloudr.model import db
 from cloudr.utils.filetype import check_file_type
 from cloudr.utils import api_result
 from . import bp

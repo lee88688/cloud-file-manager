@@ -60,12 +60,13 @@ def create_app():
     db.init_app(app)
     login_manager.init_app(app)
 
-    from . import api, file
+    from . import api
+    from . import file
     from . import views
     app.register_blueprint(api.bp)
     app.register_blueprint(file.bp)
     app.register_blueprint(views.bp)
-    
+
     app.cli.add_command(init_db_command)
     app.cli.add_command(init_file_type_table)
     app.cli.add_command(add_user)

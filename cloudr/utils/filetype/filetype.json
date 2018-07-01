@@ -3,5 +3,5 @@
     "video": ["mp4", "m4v", "mkv", "mov", "avi", "mpg", "mpg", "rmvb"],
     "audio": ["mid", "mp3", "m4a", "ogg", "flac", "wav", "amr"],
     "zip": ["zip", "tar", "rar", "gz", "bz2", "7z", "xz"],
-    "document": ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "epub"]
+    "document": ["pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx", "epub", "txt"]
 }

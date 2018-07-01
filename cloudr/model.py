@@ -40,3 +40,4 @@ class FileType(db.Model):
 
 class OfflineDownload(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    gid = db.Column(db.String(16))

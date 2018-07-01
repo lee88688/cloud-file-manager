@@ -3,8 +3,7 @@ import hashlib
 from datetime import datetime
 from flask import jsonify, request, current_app
 from werkzeug.utils import secure_filename 
-from cloudr import db
-from cloudr.model import File, Users, FileType
+from cloudr.model import File, Users, FileType, db
 from . import bp
 
 
@@ -31,7 +30,7 @@ def get_path_content():
         file_item['fileSize'] = f.File.filesize
         file_item['modifiedTime'] = f.File.uploaddate.strftime("%Y-%m-%d %H:%M:%S")
         rv['files'].append(file_item)
-    
+
     return jsonify(rv)
 
 

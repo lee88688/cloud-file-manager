@@ -16,6 +16,7 @@ function resizeListContainer(event) {
 };
 
 window.onresize = resizeListContainer
+window.$ = $
 
 $(document).ready(function() {
     resizeListContainer()
