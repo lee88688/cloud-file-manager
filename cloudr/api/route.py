@@ -3,8 +3,9 @@ import hashlib
 from datetime import datetime
 from flask import jsonify, request, current_app
 from werkzeug.utils import secure_filename 
-from cloudr.model import File, Users, FileType, db
+from cloudr.model import File, Users, FileType, OfflineDownload, db
 from . import bp
+from task.download import addUri
 
 
 @bp.route("/hello", methods=["GET", "POST"])
@@ -93,10 +94,26 @@ def rename_resource():
     path = request.json['path']
     user_name = "lee"  # todo: get current user name.
 
-    file = File.query.join(Users).filter(Users.username == user_name, 
-                                       File.path == path, 
+    file = File.query.join(Users).filter(Users.username == user_name,
+                                       File.path == path,
                                        File.filename == old_name).first()
     File.query.filter(File.id == file.id).update({'filename': new_name})
     db.session.commit()
 
     return jsonify({"result": "success"})
+
+
+@bp.route('/offline-download', methods=['POST'])
+def offline_download():
+    params = request.json()
+    user_name = 'lee'  # todo: get current user
+    user_id = Users.query.filter(Users.username == user_name).first().id
+    path = params['path']
+    url = params['url']
+    time = datetime.now()
+    od = OfflineDownload(path=path, url=url, completed=0, time=time, error=0, userid=user_id)
+    db.session.add(od)
+    db.commit()
+    addUri(od.id, [url])
+
+    return jsonify({"result": "success", 'id': od.id})

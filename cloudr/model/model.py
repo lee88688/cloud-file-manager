@@ -40,4 +40,15 @@ class FileType(db.Model):
 
 class OfflineDownload(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    userid = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    filename = db.Column(db.String(40))
+    path = db.Column(db.Text, nullable=False)
+    url = db.Column(db.Text, nullable=False)
     gid = db.Column(db.String(16))
+    completed = db.Column(db.Integer, nullable=False)  # from 0 to 100 percent
+    time = db.Column(db.DateTime, nullable=False)
+    error = db.Column(db.Integer, nullable=False)
+    message = db.Column(db.Text)
+
+    def __repr__(self):
+        return '<{} {} {}%>'.format(self.id, self.filename, self.completed)
