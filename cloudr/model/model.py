@@ -46,6 +46,7 @@ class OfflineDownload(db.Model):
     url = db.Column(db.Text, nullable=False)
     gid = db.Column(db.String(16))
     completed = db.Column(db.Integer, nullable=False)  # from 0 to 100 percent
+    done = db.Column(db.Boolean, nullable=False)
     time = db.Column(db.DateTime, nullable=False)
     error = db.Column(db.Integer, nullable=False)
     message = db.Column(db.Text)

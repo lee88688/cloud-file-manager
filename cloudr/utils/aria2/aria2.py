@@ -30,16 +30,17 @@ class Aria2(object):
                 payload['params'].append('token:' + self._token)
             payload['params'].extend(option)
 
+        print(payload)
         r = requests.post(self.URL_FORMAT.format(host=self._host, port=self._port), json=payload)
-        return r
+        return r.json()
 
     def __getattr__(self, attr):
         func = partial(self._rpc, attr)
 
         def wrap(*args, **kargs):
             r = func(*args, **kargs)
-            if 'error' not in r.json():
+            if 'error' not in r:
                 self.__dict__[attr] = func
-            return r.json()
+            return r
 
         return wrap

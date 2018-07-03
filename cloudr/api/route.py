@@ -105,15 +105,15 @@ def rename_resource():
 
 @bp.route('/offline-download', methods=['POST'])
 def offline_download():
-    params = request.json()
+    params = request.json
     user_name = 'lee'  # todo: get current user
     user_id = Users.query.filter(Users.username == user_name).first().id
     path = params['path']
     url = params['url']
     time = datetime.now()
-    od = OfflineDownload(path=path, url=url, completed=0, time=time, error=0, userid=user_id)
+    od = OfflineDownload(path=path, url=url, completed=0, time=time, error=0, userid=user_id, done=False)
     db.session.add(od)
-    db.commit()
+    db.session.commit()
     addUri(od.id, [url])
 
     return jsonify({"result": "success", 'id': od.id})
