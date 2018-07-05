@@ -13,7 +13,7 @@
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li>
+                    <li style="display: none">
                         <form class="form-inline">
                             <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>

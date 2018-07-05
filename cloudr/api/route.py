@@ -114,6 +114,6 @@ def offline_download():
     od = OfflineDownload(path=path, url=url, completed=0, time=time, error=0, userid=user_id, done=False)
     db.session.add(od)
     db.session.commit()
-    addUri(od.id, [url])
+    addUri.delay(od.id, [url])
 
     return jsonify({"result": "success", 'id': od.id})

@@ -3,15 +3,28 @@ from datetime import datetime
 from werkzeug.utils import secure_filename 
 from flask import send_from_directory, current_app, request, jsonify, session
 from cloudr import model
-from cloudr.model import db
+from cloudr.model import db, File, Users
 from cloudr.utils.filetype import check_file_type
 from cloudr.utils import api_result
 from . import bp
 
 
-@bp.route("/downloads/<filemd5>", methods=["POST", "GET"])
-def file_download(filemd5):
-    return send_from_directory(current_app.config['FILE_PATH'], filemd5)
+# @bp.route("/downloads/<filemd5>", methods=["POST", "GET"])
+# def file_download(filemd5):
+#     return send_from_directory(current_app.config['FILE_PATH'], filemd5)
+
+
+@bp.route("/downloads", methods=["GET"])
+def file_download():
+    user_name = 'lee'
+    path = request.args.get('path')
+    filename = request.args.get('filename')
+    file = File.query.join(Users).filter(
+        Users.username == user_name,
+        File.filename == filename,
+        File.path == path
+    ).first()
+    return send_from_directory(current_app.config['FILE_PATH'], file.md5, as_attachment=True, attachment_filename=filename)
 
 
 @bp.route("/uploads", methods=["POST"])
