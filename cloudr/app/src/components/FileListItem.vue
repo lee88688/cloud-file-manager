@@ -11,13 +11,13 @@
             </span>
             <div class="float-right" style="display: none;">
                 <span>
-                    <a href="javascript:void(0);" v-bind:id="'list-item-share-' + id">
-                        <i class="mdi mdi-share-variant li-btn-icon"></i>
+                    <a href="javascript:void(0);">
+                        <i class="mdi mdi-share-variant li-btn-icon" v-bind:id="'list-item-share-' + id"></i>
                     </a>
                 </span>
                 <span>
-                    <a href="javascript:void(0);" v-bind:id="'list-item-download-' + id">
-                        <i class="mdi mdi-download li-btn-icon"></i>
+                    <a href="javascript:void(0);">
+                        <i class="mdi mdi-download li-btn-icon" v-bind:id="'list-item-download-' + id"></i>
                     </a>
                 </span>
                 <span>

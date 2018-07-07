@@ -14,7 +14,7 @@ from . import bp
 #     return send_from_directory(current_app.config['FILE_PATH'], filemd5)
 
 
-@bp.route("/downloads", methods=["GET"])
+@bp.route("/download", methods=["GET"])
 def file_download():
     user_name = 'lee'
     path = request.args.get('path')

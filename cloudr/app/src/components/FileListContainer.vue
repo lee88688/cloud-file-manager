@@ -14,6 +14,7 @@
 import { mapState } from 'vuex'
 import FileListItem from './FileListItem'
 import $ from 'jquery'
+import { getFileUrl } from '../lib/api'
 
 const CLICKTYPE = {
     CHECKBOX: 'checkbox',
@@ -62,6 +63,15 @@ function clickName(store, dirName) {
     store.dispatch('enterDir', { dirName })
 }
 
+function downloadFile(path, fileName) {
+    let fileUrl = getFileUrl(path, fileName)
+    let a = document.createElement('a')
+    a.href = fileUrl
+    a.download = fileName
+    a.click()
+    console.log('download click')
+}
+
 function clickProxy(event) {
     let id = event.target.id
     if (!id.startsWith('list-item')) {
@@ -73,6 +83,7 @@ function clickProxy(event) {
     let index = parseInt(clickTypeArray[clickTypeArray.length - 1])
     let fileName = this.items[index].fileName
     let fileType = this.items[index].fileType
+    let path = this.path
     let store = this.$store
 
     switch (clickType) {
@@ -83,14 +94,15 @@ function clickProxy(event) {
         case CLICKTYPE.COPY:
             break
         case CLICKTYPE.DELETE: {
-            let path = this.path
             let indexList = [index]
             let fileList = [fileName]
             deleteItems(store, path, fileList, indexList)
             break
         }
-        case CLICKTYPE.DOWNLOAD:
+        case CLICKTYPE.DOWNLOAD: {
+            downloadFile(path, fileName)
             break
+        }
         case CLICKTYPE.MOVE:
             break
         case CLICKTYPE.NAME: {
@@ -100,7 +112,6 @@ function clickProxy(event) {
             break
         }
         case CLICKTYPE.RENAME: {
-            let path = this.path
             let oldName = fileName
             renameItem(store, path, oldName, index)
             break
