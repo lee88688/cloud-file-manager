@@ -111,3 +111,8 @@ venv.bak/
 
 # files
 .files/
+
+# celery beat
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir

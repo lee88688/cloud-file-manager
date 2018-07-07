@@ -34,13 +34,6 @@ def _addUri(id, uris):
     return r
 
 
-@app.task
-def addUri(id, uris):
-    with db_app.app_context():
-        r = _addUri(id, uris)
-    return r
-
-
 def add_new_file(id):
     download_file = OfflineDownload.query.filter(
         OfflineDownload.id == id).first()
@@ -110,6 +103,13 @@ def _refresh():
         if done:
             add_new_file(d.id)
         db.session.commit()
+
+
+@app.task
+def addUri(id, uris):
+    with db_app.app_context():
+        r = _addUri(id, uris)
+    return r
 
 
 @app.task
