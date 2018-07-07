@@ -31,6 +31,9 @@ export default {
             let inputDirName = document.getElementById("new-dir-name")
             let dirName = inputDirName.value
             let path = this.$store.state.path
+            if (!dirName) {
+                return
+            }
             this.$store.dispatch("newDirectory", { dirName, path })
             $("#new-directory").modal("hide")
         }

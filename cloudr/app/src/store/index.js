@@ -22,6 +22,9 @@ export const store = new Vuex.Store({
         },
         isFileItemSelected({ select }) {
             return select.every((v) => !v)
+        },
+        formatPath(state, { pathNameArray }) {
+            return pathNameArray.join('/')
         }
     },
     mutations: {

@@ -49,7 +49,7 @@
                         <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" v-on:click="showNewDirectoryModal">
                             <i class="mdi mdi-folder-plus btn-icon"></i>新建文件夹
                         </button>
-                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius">离线下载</button>
+                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" v-on:click="toggleModal()">离线下载</button>
                     </div>
 
                     <breadcrumb/>
@@ -85,6 +85,9 @@
 
         <!-- Rename Modal -->
         <Rename-Modal/>
+
+        <!-- Offline Download Modal -->
+        <Offline-Download-Modal v-bind:show="offline_download_modal"/>
     </div>
 </template>
 
@@ -96,6 +99,7 @@ import RenameModal from './components/RenameModal'
 import NewDirectoryModal from './components/NewDirectoryModal'
 import ComfirmDeleteModal from './components/ComfirmDeleteModal'
 import FileListContainer from './components/FileListContainer'
+import OfflineDownloadModal from './components/OfflineDownloadModal'
 
 function selectAllCheckbox(event) {
     let value = event.target.checked
@@ -120,11 +124,20 @@ export default {
         RenameModal,
         NewDirectoryModal,
         ComfirmDeleteModal,
-        FileListContainer
+        FileListContainer,
+        OfflineDownloadModal
     },
     methods: {
         selectAllCheckbox,
-        showNewDirectoryModal
+        showNewDirectoryModal,
+        toggleModal() {
+            this.offline_download_modal = this.offline_download_modal ? false : true
+        }
+    },
+    data() {
+        return {
+            offline_download_modal: false
+        }
     }
 }
 </script>

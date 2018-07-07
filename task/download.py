@@ -1,4 +1,5 @@
 import os
+import shutil
 from hashlib import md5
 from cloudr.model import db_app, db, OfflineDownload, File, FileType
 from .celery import app
@@ -34,16 +35,16 @@ def _addUri(id, uris):
     return r
 
 
-def add_new_file(id):
+def add_new_file(id, file_path):
     download_file = OfflineDownload.query.filter(
         OfflineDownload.id == id).first()
     userid = download_file.userid
     filename = download_file.filename
     uploaddate = download_file.time
-    path = download_file.path
-    filesize = os.path.getsize(path)
+    # path = download_file.path
+    filesize = os.path.getsize(file_path)
     # find the file and calculate the md5.
-    with open(path, 'rb') as f:
+    with open(file_path, 'rb') as f:
         m = md5()
         r = f.read(MAX_READ_SIZE)
         m.update(r)
@@ -54,20 +55,20 @@ def add_new_file(id):
     filetype = FileType.query.filter(FileType.filetype == check_file_type(filename)).first()
     if not filetype:
         raise TypeError('can not specify filetype for {}'.format(filename))
-    filetype = filename.id
+    filetype = filetype.id
     file = File(
         userid=userid,
         filetype=filetype,
         filename=filename,
         filesize=filesize,
         uploaddate=uploaddate,
-        path=path,
+        path=download_file.path,
         md5=md5_str
     )
     db.session.add(file)
     # move the file to destination dir
     new_path = FILE_PATH + os.sep + md5_str
-    os.rename(path, new_path)
+    shutil.move(file_path, new_path)
 
 
 def _refresh():
@@ -84,7 +85,7 @@ def _refresh():
             db.session.commit()
             continue
         result = r['result'][0]
-        total_length = r['result']['length']
+        total_length = result['length']
         completed = int(
             float(result['completedLength']) / float(total_length) * 100)
         done = (completed == 100)
@@ -95,13 +96,13 @@ def _refresh():
             filename = None
         OfflineDownload.query.filter(OfflineDownload.id == d.id).update({
             'filename': filename,
-            'path': path,
+            'path': d.path,  # this path is virtual path for cloudr
             'completed': completed,
             'done': done
         })
         # if done move the file into file dir, and insert a row into File
         if done:
-            add_new_file(d.id)
+            add_new_file(d.id, path)
         db.session.commit()
 
 
