@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
     state: {
         path: '/',
         files: [],
-        select: []
+        select: [],
+        notification: [] // notification message like {level: 'info', content: 'this is a info'}
     },
     getters: {
         pathNameArray(state) {
@@ -25,6 +26,12 @@ export const store = new Vuex.Store({
         },
         formatPath(state, { pathNameArray }) {
             return pathNameArray.join('/')
+        },
+        hasMessage({ notification }) {
+            return (notification.length > 0)
+        },
+        firstMessage({ notification }) {
+            return notification[0]
         }
     },
     mutations: {
@@ -86,6 +93,14 @@ export const store = new Vuex.Store({
             else {
                 select.splice(0, select.length, ...getFalseIter(select.length))
             }
+        },
+        pushMessage({ notification }, payload) {
+            notification.push(payload)
+        },
+        deleteLatestMessage({ notification }) {
+            if (notification.length > 0) {
+                notification.shift()
+            }
         }
     },
     actions: {
@@ -126,6 +141,13 @@ export const store = new Vuex.Store({
         },
         selectAll(context, payload) {
             context.commit('selectAll', payload)
+        },
+        publishMessage({ commit, dispatch }, payload) {
+            commit('pushMessage', payload)
+            setTimeout(() => dispatch('deleteLatestMessage'), 5000)
+        },
+        deleteLatestMessage({ commit }) {
+            commit('deleteLatestMessage')
         }
     }
 })

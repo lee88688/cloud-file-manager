@@ -88,6 +88,8 @@
 
         <!-- Offline Download Modal -->
         <Offline-Download-Modal v-bind:show="offline_download_modal"/>
+
+        <Message-Notification/>
     </div>
 </template>
 
@@ -100,6 +102,7 @@ import NewDirectoryModal from './components/NewDirectoryModal'
 import ComfirmDeleteModal from './components/ComfirmDeleteModal'
 import FileListContainer from './components/FileListContainer'
 import OfflineDownloadModal from './components/OfflineDownloadModal'
+import MessageNotification from './components/MessageNotification'
 
 function selectAllCheckbox(event) {
     let value = event.target.checked
@@ -125,7 +128,8 @@ export default {
         NewDirectoryModal,
         ComfirmDeleteModal,
         FileListContainer,
-        OfflineDownloadModal
+        OfflineDownloadModal,
+        MessageNotification
     },
     methods: {
         selectAllCheckbox,
@@ -145,11 +149,13 @@ export default {
 <style>
 @import 'bootstrap/dist/css/bootstrap.min.css';
 @import '@mdi/font/css/materialdesignicons.css';
+@import 'animate.css/animate.css';
 
 html,
 body {
     height: 100%;
     width: 100%;
+    overflow: hidden;
 }
 
 div.contianer-fluid {
