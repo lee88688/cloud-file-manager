@@ -28,16 +28,16 @@
                 <div class="col-md-2 d-none d-md-block bg-light">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">全部文件</a>
+                            <a class="nav-link" href="javascript:void(0);"><i class="li-icon mdi mdi-folder-multiple mr-2"></i>全部文件</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">图片</a>
+                            <a class="nav-link" href="javascript:void(0);"><i class="li-icon mdi mdi-image-multiple mr-2"></i>图片</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">文档</a>
+                            <a class="nav-link" href="javascript:void(0);"><i class="li-icon mdi mdi-note-multiple mr-2"></i>文档</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="javascript:void(0);">视频</a>
+                            <a class="nav-link" href="javascript:void(0);"><i class="li-icon mdi mdi-video-4k-box mr-2"></i>视频</a>
                         </li>
                     </ul>
                 </div>
