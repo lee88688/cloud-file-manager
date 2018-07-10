@@ -117,3 +117,47 @@ def offline_download():
     addUri.delay(od.id, [url])
 
     return jsonify({"result": "success", 'id': od.id})
+
+
+@bp.route('/move-resource', methods=['POST'])
+def move_resource():
+    params = request.json
+    user_name = 'lee'  # todo: get current user
+    user_id = Users.query.filter(Users.username == user_name).first().id
+    file_name = params['filename']
+    path = params['path']
+    new_path = params['newpath']
+    directory_type_id = FileType.query.filter(FileType.filetype == 'directory').first().id
+    file = File.query.filter(
+        File.userid == user_id, File.path == path, File.filename == file_name).first()
+    if file.filetype != directory_type_id:
+        file.path = new_path
+    else:
+        pass  # todo: deal with directory
+    db.session.commit()
+
+    return jsonify({"result": "success"})
+
+
+@bp.route('/search', methods=['POST'])
+def search():
+    params = request.json
+    path = params['path']
+    query_str = params['query']
+    user_name = 'lee'  # todo: get current user
+    user_id = Users.query.filter(Users.username == user_name).first().id
+    # directory_type_id = FileType.query.filter(FileType.filetype == 'directory').first().id
+    files = File.query.filter(
+        File.userid == user_id, File.path.like(path + '%'), File.filename.like('%' + query_str + '%')).all()
+
+    rv = {"result": "success", "files": []}
+    for index, f in enumerate(files):
+        file_item = {}
+        file_item['id'] = index
+        file_item['fileName'] = f.File.filename
+        file_item['fileType'] = f.filetype
+        file_item['fileSize'] = f.File.filesize
+        file_item['modifiedTime'] = f.File.uploaddate.strftime("%Y-%m-%d %H:%M:%S")
+        rv['files'].append(file_item)
+
+    return jsonify(rv)

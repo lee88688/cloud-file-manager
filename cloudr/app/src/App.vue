@@ -135,7 +135,7 @@ export default {
         selectAllCheckbox,
         showNewDirectoryModal,
         toggleModal() {
-            this.offline_download_modal = this.offline_download_modal ? false : true
+            this.offline_download_modal = !this.offline_download_modal
         }
     },
     data() {
