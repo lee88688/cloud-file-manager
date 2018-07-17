@@ -1,5 +1,5 @@
-from flask import url_for, current_app, Blueprint, render_template, request, redirect, jsonify
-from .model import Users
+from flask import Blueprint, render_template, request, redirect, jsonify
+from cloudr.model import Users
 
 
 bp = Blueprint("views", __name__)
@@ -17,3 +17,4 @@ def login():
             return jsonify({"result": "invalid name or password."})
 
     return render_template('login.html')
+

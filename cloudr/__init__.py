@@ -12,8 +12,8 @@ login_manager = LoginManager()
 
 @login_manager.user_loader
 def load_user(user_id):
-    from . import model
-    return model.Users.get(int(user_id))
+    from .model import Users
+    return Users.get(int(user_id))
 
 
 @click.command("init-db")
@@ -50,7 +50,7 @@ def add_user(name, password):
 
 
 def create_app():
-    app = Flask(__name__, static_folder="static")
+    app = Flask(__name__)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.split(__file__)[0] + os.sep + "db.sqlite3"
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
@@ -65,7 +65,8 @@ def create_app():
     from . import views
     app.register_blueprint(api.bp)
     app.register_blueprint(file.bp)
-    app.register_blueprint(views.bp)
+    # app.register_blueprint(views.bp)
+    app.register_blueprint(views.app_bp)
 
     app.cli.add_command(init_db_command)
     app.cli.add_command(init_file_type_table)
