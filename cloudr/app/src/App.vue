@@ -50,6 +50,7 @@
                             <i class="mdi mdi-folder-plus btn-icon"></i>新建文件夹
                         </button>
                         <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" v-on:click="toggleModal()">离线下载</button>
+                        <Select-Tool mode="normal"/>
                     </div>
 
                     <breadcrumb/>
@@ -103,6 +104,7 @@ import ComfirmDeleteModal from './components/ComfirmDeleteModal'
 import FileListContainer from './components/FileListContainer'
 import OfflineDownloadModal from './components/OfflineDownloadModal'
 import MessageNotification from './components/MessageNotification'
+import SelectTool from './components/SelectTool'
 
 function selectAllCheckbox(event) {
     let value = event.target.checked
@@ -129,7 +131,8 @@ export default {
         ComfirmDeleteModal,
         FileListContainer,
         OfflineDownloadModal,
-        MessageNotification
+        MessageNotification,
+        SelectTool
     },
     methods: {
         selectAllCheckbox,

@@ -9,7 +9,8 @@ export const store = new Vuex.Store({
         path: '/',
         files: [],
         select: [],
-        notification: [] // notification message like {level: 'info', content: 'this is a info'}
+        notification: [], // notification message like {level: 'info', content: 'this is a info'}
+        operateFiles: [] // this array includes the selected operate files
     },
     getters: {
         pathNameArray(state) {
@@ -101,6 +102,15 @@ export const store = new Vuex.Store({
             if (notification.length > 0) {
                 notification.shift()
             }
+        },
+        modifyOperateFiles({ operateFiles }, { files }) {
+            let length = operateFiles.length > files.length ? operateFiles.length : files.length
+            if (files.length > 0) {
+                operateFiles.splice(0, length, files)
+            }
+            else {
+                operateFiles.splice(0, length)
+            }
         }
     },
     actions: {
@@ -148,6 +158,12 @@ export const store = new Vuex.Store({
         },
         deleteLatestMessage({ commit }) {
             commit('deleteLatestMessage')
+        },
+        modifyOperateFiles({ commit, dispatch }, payload) {
+            commit('modifyOperateFiles', payload)
+            if (payload.files.length === 0) {
+                dispatch('selectAll', { value: false })
+            }
         }
     }
 })
