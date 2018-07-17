@@ -58,7 +58,7 @@
                     <div>
                         <ul class="list-group-flush row ml-0 mr-0 pl-0 mb-0">
                             <li class="list-group-item list-group-item-action col-7 bottom-border">
-                                <input type="checkbox" class="mr-1 checkbox" id="select-all-checkbox" v-on:click="selectAllCheckbox">
+                                <input type="checkbox" class="mr-1 checkbox" id="select-all-checkbox" v-on:change="selectAllCheckbox">
                                 <span>文件名</span>
                             </li>
                             <li class="list-group-item list-group-item-action col-2 bottom-border">

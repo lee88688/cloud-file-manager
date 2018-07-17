@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { apiDeleteResource, apiGetPathContent, apiNewDirectory, apiRenameResource } from "../lib/api"
+import { apiDeleteResource, apiGetPathContent, apiNewDirectory, apiRenameResource, apiPasteFiles } from "../lib/api"
 
 Vue.use(Vuex)
 
@@ -106,7 +106,7 @@ export const store = new Vuex.Store({
         modifyOperateFiles({ operateFiles }, { files }) {
             let length = operateFiles.length > files.length ? operateFiles.length : files.length
             if (files.length > 0) {
-                operateFiles.splice(0, length, files)
+                operateFiles.splice(0, length, ...files)
             }
             else {
                 operateFiles.splice(0, length)
@@ -161,9 +161,10 @@ export const store = new Vuex.Store({
         },
         modifyOperateFiles({ commit, dispatch }, payload) {
             commit('modifyOperateFiles', payload)
-            if (payload.files.length === 0) {
-                dispatch('selectAll', { value: false })
-            }
+        },
+        async pasteFiles({ dispatch }, { fileNames, path, newPath }) {
+            let response = await apiPasteFiles(fileNames, path, newPath)
+            return response
         }
     }
 })

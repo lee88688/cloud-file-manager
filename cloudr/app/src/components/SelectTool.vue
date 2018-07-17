@@ -17,9 +17,14 @@
 import { mapState, mapActions } from 'vuex'
 
 export default {
+    data() {
+        return {
+            originalPath: '/'
+        }
+    },
     props: [],
     computed: {
-        ...mapState(['select', 'operateFiles', 'files']),
+        ...mapState(['select', 'operateFiles', 'files', 'path']),
         mode() {
             if (this.operateFiles.length > 0) {
                 return 'operate'
@@ -33,7 +38,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['modifyOperateFiles']),
+        ...mapActions(['modifyOperateFiles', 'pasteFiles', 'getCurrentPathContent']),
         pushOperateFiles() {
             let files = []
             for (let i = 0; i < this.select.length; i++) {
@@ -43,29 +48,54 @@ export default {
             }
             this.modifyOperateFiles({ files })
         },
-        handleClick(event) {
+        async handleClick(event) {
             let id = event.target.id
             let operate = id.split('-')[1]
             switch (operate) {
                 case "move": {
                     console.log("move")
                     this.pushOperateFiles()
+                    this.originalPath = this.path
                     break
                 }
                 case "copy": {
                     this.pushOperateFiles()
+                    this.originalPath = this.path
                     break
                 }
                 case "delete": {
                     this.pushOperateFiles()
+                    this.originalPath = this.path
                     break
                 }
                 case "paste": {
+                    let fileNames = []
+                    for (let item of this.operateFiles) {
+                        fileNames.push(item.fileName)
+                    }
+                    let payload = {
+                        fileNames: fileNames,
+                        path: this.originalPath,
+                        newPath: this.path
+                    }
+                    let response = await this.pasteFiles(payload)
+                    if (response.result === 'success') {
+                        await this.getCurrentPathContent()
+                        document.getElementById('tool-cancel').click()
+                    }
                     break
                 }
                 case "cancel": {
                     let files = []
-                    this.modifyOperateFiles({ files }) // todo: items can not be removed
+                    this.modifyOperateFiles({ files })
+                    let checkallbox = document.getElementById('select-all-checkbox')
+                    if (checkallbox.checked === true) {
+                        checkallbox.click()
+                    }
+                    else {
+                        checkallbox.click()
+                        checkallbox.click()
+                    }
                     break
                 }
                 default:

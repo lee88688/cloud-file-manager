@@ -124,16 +124,17 @@ def move_resource():
     params = request.json
     user_name = 'lee'  # todo: get current user
     user_id = Users.query.filter(Users.username == user_name).first().id
-    file_name = params['filename']
+    file_names = params['filenames']
     path = params['path']
     new_path = params['newpath']
     directory_type_id = FileType.query.filter(FileType.filetype == 'directory').first().id
-    file = File.query.filter(
-        File.userid == user_id, File.path == path, File.filename == file_name).first()
-    if file.filetype != directory_type_id:
-        file.path = new_path
-    else:
-        pass  # todo: deal with directory
+    for file_name in file_names:
+        file = File.query.filter(
+            File.userid == user_id, File.path == path, File.filename == file_name).first()
+        if file.filetype != directory_type_id:
+            file.path = new_path
+        else:
+            pass  # todo: deal with directory
     db.session.commit()
 
     return jsonify({"result": "success"})

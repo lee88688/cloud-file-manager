@@ -17,4 +17,3 @@ def login():
             return jsonify({"result": "invalid name or password."})
 
     return render_template('login.html')
-
