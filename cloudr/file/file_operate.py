@@ -5,7 +5,7 @@ from flask import send_from_directory, current_app, request, jsonify, session
 from cloudr import model
 from cloudr.model import db, File, Users
 from cloudr.utils.filetype import check_file_type
-from cloudr.utils import api_result
+from cloudr.utils import api_result, SUCCESS_RESULT, FAILURE_RESULT
 from . import bp
 
 
@@ -24,7 +24,7 @@ def file_download():
         File.filename == filename,
         File.path == path
     ).first()
-    return send_from_directory(current_app.config['FILE_PATH'], file.md5, as_attachment=True, attachment_filename=filename)
+    return send_from_directory(current_app.config['FILE_PATH'], file.md5, as_attachment=True, attachment_filename=filename, conditional=True)
 
 
 @bp.route("/uploads", methods=["POST"])
@@ -50,5 +50,5 @@ def file_upload():
         db.session.commit()
         file.save(os.path.join(current_app.config['FILE_PATH'], md5))
     except Exception:
-        return jsonify(api_result("failure", "upload fail."))
-    return jsonify(api_result("success"))
+        return jsonify(api_result(FAILURE_RESULT, "upload fail."))
+    return jsonify(api_result(SUCCESS_RESULT))

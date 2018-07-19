@@ -1,11 +1,8 @@
 <template>
     <transition enter-active-class="animated bounceInDown" leave-active-class="animated bounceOutUp">
-        <div class="d-flex justify-content-center fixed-top mt-1" v-if="hasMessage">
+        <div class="d-flex justify-content-center fixed-top mt-1" v-if="hasMessage" style="z-index: 1070;">
             <div style="min-width:50%;" class="alert text-center" v-bind:class="[ messageStyle ]">
                 {{ messageContent }}
-                <button type="button" class="close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
         </div>
     </transition>

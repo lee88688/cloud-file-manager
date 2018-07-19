@@ -64,8 +64,7 @@ export default {
                     break
                 }
                 case "delete": {
-                    this.pushOperateFiles()
-                    this.originalPath = this.path
+                    // todo: directly post delete request to server.
                     break
                 }
                 case "paste": {
