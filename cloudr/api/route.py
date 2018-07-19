@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from cloudr.model import File, Users, FileType, OfflineDownload, db
 from . import bp
 from task.download import addUri
+from cloudr.utils import change_path_prefix
 
 
 @bp.route("/hello", methods=["GET", "POST"])
@@ -134,7 +135,16 @@ def move_resource():
         if file.filetype != directory_type_id:
             file.path = new_path
         else:
-            pass  # todo: deal with directory
+            path_like = (file.path if file.path != '/' else '') + '/' + file.filename + '%'
+            path_prefix = file.path  # this path is the path the need to change
+            files = File.query.filter(
+                File.userid == user_id,
+                File.path.like(path_like)
+            ).all()
+            for f in files:
+                print(change_path_prefix(f.path, path_prefix, new_path), f, sep=',')
+                f.path = change_path_prefix(f.path, path_prefix, new_path)
+            file.path = new_path
     db.session.commit()
 
     return jsonify({"result": "success"})

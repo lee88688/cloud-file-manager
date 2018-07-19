@@ -35,10 +35,6 @@ def init_file_type_table():
     click.echo("Initialized file_type table.")
 
 
-@click.command("add-user")
-@click.argument("name")
-@click.argument("password")
-@with_appcontext
 def add_user(name, password):
     from .model import Users
     u = Users(username=name, password=password)
@@ -51,6 +47,7 @@ def add_user(name, password):
 @with_appcontext
 def init_table():
     init_file_type_table()
+    add_user('lee', '123')
 
 
 def create_app():
@@ -74,6 +71,5 @@ def create_app():
 
     app.cli.add_command(init_db_command)
     app.cli.add_command(init_table)
-    app.cli.add_command(add_user)
 
     return app
