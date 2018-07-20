@@ -124,9 +124,25 @@ export const store = new Vuex.Store({
         },
         async getCurrentPathContent(context) {
             let path = context.state.path
-            let response = await apiGetPathContent(path)
-            let newFiles = response.files
-            context.commit('changeFiles', { newFiles })
+            try {
+                let response = await apiGetPathContent(path)
+                let newFiles = response.files
+                context.commit('changeFiles', { newFiles })
+            }
+            catch (e) {
+                let content = ''
+                if (e.status === 504) {
+                    content = '服务器无响应，请稍后刷新再试。'
+                }
+                else {
+                    content = '网络出现问题，请稍后刷新再试。'
+                }
+                let payload = {
+                    level: 'warning',
+                    content: content
+                }
+                context.dispatch('publishMessage', payload)
+            }
         },
         async deleteFiles(context, {path, fileList, indexList}) {
             let response = await apiDeleteResource(path, fileList)
@@ -139,6 +155,7 @@ export const store = new Vuex.Store({
             if (response.result === 'success') {
                 context.commit('addDir', { file: response.file })
             }
+            return response
         },
         async rename(context, {path, oldName, newName, index}) {
             let response = await apiRenameResource(path, oldName, newName)

@@ -10,7 +10,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { INFO, WARNING, ERROR } from '../lib/notification'
+import { Messager } from '../lib/notification'
 
 export default {
     computed: {
@@ -24,13 +24,13 @@ export default {
                 return ''
             }
             switch (message.level) {
-                case INFO: {
+                case Messager.LEVEL.INFO: {
                     return 'alert-dark'
                 }
-                case WARNING: {
+                case Messager.LEVEL.WARNING: {
                     return 'alert-warning'
                 }
-                case ERROR: {
+                case Messager.LEVEL.ERROR: {
                     return 'alert-danger'
                 }
                 default: {

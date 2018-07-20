@@ -24,17 +24,23 @@
 
 <script>
 import $ from 'jquery'
+import { Messager } from '../lib/notification'
 
 export default {
     methods: {
-        newDirectory(event) {
+        async newDirectory(event) {
             let inputDirName = document.getElementById("new-dir-name")
             let dirName = inputDirName.value
             let path = this.$store.state.path
             if (!dirName) {
                 return
             }
-            this.$store.dispatch("newDirectory", { dirName, path })
+            try {
+                await this.$store.dispatch("newDirectory", { dirName, path })
+            }
+            catch (e) {
+                new Messager(Messager.LEVEL.INFO, '创建文件夹失败！').publishMessage()
+            }
             $("#new-directory").modal("hide")
         }
     }
