@@ -2,11 +2,11 @@ import os
 import hashlib
 from datetime import datetime
 from flask import jsonify, request, current_app
-from werkzeug.utils import secure_filename 
 from cloudr.model import File, Users, FileType, OfflineDownload, db
 from . import bp
 from task.download import addUri
 from cloudr.utils import change_path_prefix
+from flask_login import login_required, current_user
 
 
 @bp.route("/hello", methods=["GET", "POST"])
@@ -15,9 +15,9 @@ def hello():
 
 
 @bp.route("/get-path-content", methods=["POST"])
+@login_required
 def get_path_content():
-    # user_name = request.form['uname']
-    user_name = 'lee'  # todo: user name
+    user_name = current_user.username
     path = request.json['path']
     files = File.query.join(Users).join(FileType).\
                        filter(Users.username == user_name, File.path == path).\
@@ -38,9 +38,10 @@ def get_path_content():
 
 
 @bp.route("/delete-resource", methods=["POST"])
+@login_required
 def delete_resource():
     dir_file_type = FileType.query.filter(FileType.filetype == 'directory').first().id
-    user_name = "lee"  # todo: get user name
+    user_name = current_user.username
     path = request.json['path']  # todo: path check
     file_list = request.json["fileList"]
     for file_name in file_list:
@@ -64,8 +65,9 @@ def delete_resource():
 
 
 @bp.route("/new-directory", methods=["POST"])
+@login_required
 def new_directory():
-    user_name = "lee"  # todo: get current user name.
+    user_name = current_user.username
     size = 0
     path = request.json['path']  # todo: path check
     md5 = "-"
@@ -90,11 +92,12 @@ def new_directory():
 
 
 @bp.route("/rename-resource", methods=["POST"])
+@login_required
 def rename_resource():
     new_name = secure_filename(request.json['newname'])
     old_name = request.json['oldname']
     path = request.json['path']
-    user_name = "lee"  # todo: get current user name.
+    user_name = current_user.username
 
     file = File.query.join(Users).filter(Users.username == user_name,
                                        File.path == path,
@@ -106,9 +109,10 @@ def rename_resource():
 
 
 @bp.route('/offline-download', methods=['POST'])
+@login_required
 def offline_download():
     params = request.json
-    user_name = 'lee'  # todo: get current user
+    user_name = current_user.username
     user_id = Users.query.filter(Users.username == user_name).first().id
     path = params['path']
     url = params['url']
@@ -122,9 +126,10 @@ def offline_download():
 
 
 @bp.route('/move-resource', methods=['POST'])
+@login_required
 def move_resource():
     params = request.json
-    user_name = 'lee'  # todo: get current user
+    user_name = current_user.username
     user_id = Users.query.filter(Users.username == user_name).first().id
     file_names = params['filenames']
     path = params['path']
@@ -152,11 +157,12 @@ def move_resource():
 
 
 @bp.route('/search', methods=['POST'])
+@login_required
 def search():
     params = request.json
     path = params['path']
     query_str = params['query']
-    user_name = 'lee'  # todo: get current user
+    user_name = current_user.username
     user_id = Users.query.filter(Users.username == user_name).first().id
     files = File.query.join(FileType).filter(
         File.userid == user_id, File.path.like(path + '%'), File.filename.like('%' + query_str + '%')

@@ -15,10 +15,10 @@
                     </li>
                     <li>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <input id="search-content" v-model="searchContent" class="form-control" type="search" aria-label="Search">
+                            <input id="search-content" v-model="searchContent" class="form-control" type="search" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" v-on:click="searchClick">搜索</button>
                             </div>
-                            <button class="btn btn-secondary" v-on:click="searchClick">搜索</button>
                         </div>
                     </li>
                 </ul>

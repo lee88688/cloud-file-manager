@@ -8,12 +8,13 @@ from .config import FILE_PATH, SQLITE_URL
 
 
 login_manager = LoginManager()
+login_manager.login_view = '/login'
 
 
 @login_manager.user_loader
 def load_user(user_id):
     from .model import Users
-    return Users.get(int(user_id))
+    return Users.query.filter(Users.id == int(user_id)).first()
 
 
 @click.command("init-db")
@@ -53,11 +54,12 @@ def init_table():
 def create_app():
     app = Flask(__name__)
 
+    app.config['SECRET_KEY'] = os.urandom(24)
+    app.config['LOGIN_DISABLED'] = False
     app.config['SQLALCHEMY_DATABASE_URI'] = SQLITE_URL
     app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
     app.config['FILE_PATH'] = FILE_PATH
-    app.config['LOGIN_DISABLED'] = True
 
     db.init_app(app)
     login_manager.init_app(app)
@@ -68,6 +70,7 @@ def create_app():
     app.register_blueprint(api.bp)
     app.register_blueprint(file.bp)
     app.register_blueprint(views.app_bp)
+    app.register_blueprint(views.view_bp)
 
     app.cli.add_command(init_db_command)
     app.cli.add_command(init_table)
