@@ -31,6 +31,7 @@ def get_path_content():
         file_item['fileType'] = f.filetype
         file_item['fileSize'] = f.File.filesize
         file_item['modifiedTime'] = f.File.uploaddate.strftime("%Y-%m-%d %H:%M:%S")
+        file_item['path'] = f.File.path
         rv['files'].append(file_item)
 
     return jsonify(rv)
@@ -158,8 +159,9 @@ def search():
     user_name = 'lee'  # todo: get current user
     user_id = Users.query.filter(Users.username == user_name).first().id
     # directory_type_id = FileType.query.filter(FileType.filetype == 'directory').first().id
-    files = File.query.filter(
-        File.userid == user_id, File.path.like(path + '%'), File.filename.like('%' + query_str + '%')).all()
+    files = File.query.join(FileType).filter(
+        File.userid == user_id, File.path.like(path + '%'), File.filename.like('%' + query_str + '%')
+    ).add_columns(FileType.filetype).all()
 
     rv = {"result": "success", "files": []}
     for index, f in enumerate(files):
@@ -169,6 +171,7 @@ def search():
         file_item['fileType'] = f.filetype
         file_item['fileSize'] = f.File.filesize
         file_item['modifiedTime'] = f.File.uploaddate.strftime("%Y-%m-%d %H:%M:%S")
+        file_item['path'] = f.File.path
         rv['files'].append(file_item)
 
     return jsonify(rv)

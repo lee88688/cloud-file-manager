@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { apiDeleteResource, apiGetPathContent, apiNewDirectory, apiRenameResource, apiPasteFiles } from "../lib/api"
+import { apiDeleteResource, apiGetPathContent, apiNewDirectory, apiRenameResource, apiPasteFiles, apiSearch } from "../lib/api"
 
 Vue.use(Vuex)
 
@@ -181,6 +181,14 @@ export const store = new Vuex.Store({
         },
         async pasteFiles({ dispatch }, { fileNames, path, newPath }) {
             let response = await apiPasteFiles(fileNames, path, newPath)
+            return response
+        },
+        async search({ commit, dispatch }, { query, path }) {
+            commit('enterDir', { dirName: 'search' })
+            let response = await apiSearch(query, path)
+            if (response.result === 'success') {
+                commit('changeFiles', { newFiles: response.files })
+            }
             return response
         }
     }

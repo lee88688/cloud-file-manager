@@ -7,17 +7,19 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                <ul class="navbar-nav mr-auto" style="width: 100%;">
+                    <li class="nav-item active mr-auto">
                         <a class="nav-link" href="javascript:void(0);">Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li style="display: none">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2 small-font-size-radius" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-secondary my-2 my-sm-0 small-font-size-radius" type="submit">搜索</button>
-                        </form>
+                    <li>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <input id="search-content" v-model="searchContent" class="form-control" type="search" aria-label="Search">
+                            </div>
+                            <button class="btn btn-secondary" v-on:click="searchClick">搜索</button>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -96,6 +98,7 @@
 
 <script>
 import $ from 'jquery'
+import { mapState, mapActions } from 'vuex'
 import breadcrumb from './components/breadcrumb'
 import UploadModal from './components/UploadModal'
 import RenameModal from './components/RenameModal'
@@ -121,6 +124,12 @@ function showNewDirectoryModal(event) {
     $('#new-directory').modal('show')
 }
 
+async function searchClick(event) {
+    let path = this.path
+    let query = this.searchContent
+    this.search({ query, path })
+}
+
 export default {
     name: 'App',
     components: {
@@ -135,14 +144,20 @@ export default {
         SelectTool
     },
     methods: {
+        ...mapActions(['search']),
         selectAllCheckbox,
         showNewDirectoryModal,
+        searchClick,
         toggleModal() {
             this.offline_download_modal = !this.offline_download_modal
         }
     },
+    computed: {
+        ...mapState(['path'])
+    },
     data() {
         return {
+            searchContent: '',
             offline_download_modal: false
         }
     }
@@ -150,9 +165,6 @@ export default {
 </script>
 
 <style>
-@import 'bootstrap/dist/css/bootstrap.min.css';
-@import '@mdi/font/css/materialdesignicons.css';
-@import 'animate.css/animate.css';
 
 html,
 body {

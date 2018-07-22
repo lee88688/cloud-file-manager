@@ -5,6 +5,9 @@ import $ from 'jquery'
 import App from './App'
 import 'bootstrap'
 import { store } from './store'
+import '@mdi/font/css/materialdesignicons.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'animate.css/animate.css'
 
 Vue.config.productionTip = false
 
