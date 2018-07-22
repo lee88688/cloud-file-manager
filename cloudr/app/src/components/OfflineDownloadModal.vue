@@ -54,7 +54,9 @@ export default {
     props: ['show'],
     watch: {
         show: function() {
-            $('#offline-download').modal('show')
+            if (this.show) {
+                $('#offline-download').modal('show')
+            }
         }
     },
     computed: {
@@ -74,6 +76,11 @@ export default {
                 $('#offline-download').modal('hide')
             }
         }
+    },
+    mounted: function() {
+        $('#offline-download').on('hide.bs.modal', (e) => {
+            this.$emit('update:show', false)
+        })
     }
 }
 </script>

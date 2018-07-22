@@ -48,10 +48,10 @@
                         <button type="button" class="btn btn-primary mr-1 small-font-size-radius" data-toggle="modal" data-target="#upload-modal">
                             <i class="mdi mdi-upload btn-icon"></i>上传
                         </button>
-                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" v-on:click="showNewDirectoryModal">
+                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" v-on:click="showNewDirectoryModal = !showNewDirectoryModal">
                             <i class="mdi mdi-folder-plus btn-icon"></i>新建文件夹
                         </button>
-                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" v-on:click="toggleModal()">离线下载</button>
+                        <button type="button" class="btn btn-secondary mr-1 small-font-size-radius" v-on:click="showOfflineDownloadModal = !showOfflineDownloadModal">离线下载</button>
                         <Select-Tool mode="normal"/>
                     </div>
 
@@ -78,26 +78,25 @@
         </div>
 
         <!-- Upload Modal -->
-        <Upload-Modal/>
+        <Upload-Modal v-bind:show.sync="showUploadModal"/>
 
         <!-- Comfirm delete Modal -->
         <Comfirm-Delete-Modal/>
 
         <!-- New Directory Modal -->
-        <New-Directory-Modal/>
+        <New-Directory-Modal v-bind:show.sync="showNewDirectoryModal"/>
 
         <!-- Rename Modal -->
         <Rename-Modal/>
 
         <!-- Offline Download Modal -->
-        <Offline-Download-Modal v-bind:show="offline_download_modal"/>
+        <Offline-Download-Modal v-bind:show.sync="showOfflineDownloadModal"/>
 
         <Message-Notification/>
     </div>
 </template>
 
 <script>
-import $ from 'jquery'
 import { mapState, mapActions } from 'vuex'
 import breadcrumb from './components/breadcrumb'
 import UploadModal from './components/UploadModal'
@@ -118,10 +117,6 @@ function selectAllCheckbox(event) {
     for (let item of list.values()) {
         item.checked = value
     }
-}
-
-function showNewDirectoryModal(event) {
-    $('#new-directory').modal('show')
 }
 
 async function searchClick(event) {
@@ -146,11 +141,7 @@ export default {
     methods: {
         ...mapActions(['search']),
         selectAllCheckbox,
-        showNewDirectoryModal,
-        searchClick,
-        toggleModal() {
-            this.offline_download_modal = !this.offline_download_modal
-        }
+        searchClick
     },
     computed: {
         ...mapState(['path'])
@@ -158,7 +149,9 @@ export default {
     data() {
         return {
             searchContent: '',
-            offline_download_modal: false
+            showNewDirectoryModal: false,
+            showOfflineDownloadModal: false,
+            showUploadModal: false
         }
     }
 }

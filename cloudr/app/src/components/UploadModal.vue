@@ -82,10 +82,23 @@ export default {
             fileName: "点击选择文件"
         }
     },
+    props: ['show'],
     methods: {
         uploadInputClick,
         getFileName,
         uploadFile
+    },
+    watch: {
+        show: function() {
+            if (this.show) {
+                $('#upload-modal').modal('show')
+            }
+        }
+    },
+    mounted: function() {
+        $('#upload-modal').on('hide.bs.modal', (e) => {
+            this.$emit('update:show', false)
+        })
     }
 }
 </script>

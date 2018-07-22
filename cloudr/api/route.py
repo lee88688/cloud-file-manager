@@ -158,7 +158,6 @@ def search():
     query_str = params['query']
     user_name = 'lee'  # todo: get current user
     user_id = Users.query.filter(Users.username == user_name).first().id
-    # directory_type_id = FileType.query.filter(FileType.filetype == 'directory').first().id
     files = File.query.join(FileType).filter(
         File.userid == user_id, File.path.like(path + '%'), File.filename.like('%' + query_str + '%')
     ).add_columns(FileType.filetype).all()

@@ -43,6 +43,19 @@ export default {
             }
             $("#new-directory").modal("hide")
         }
+    },
+    props: ['show'],
+    watch: {
+        show: function(newShow, old) {
+            if (newShow) {
+                $("#new-directory").modal("show")
+            }
+        }
+    },
+    mounted: function() {
+        $("#new-directory").on('hide.bs.modal', (e) => {
+            this.$emit('update:show', false)
+        })
     }
 }
 </script>
