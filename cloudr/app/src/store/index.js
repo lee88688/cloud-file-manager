@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
         files: [],
         select: [],
         notification: [], // notification message like {level: 'info', content: 'this is a info'}
-        operateFiles: [] // this array includes the selected operate files
+        operateFiles: [], // this array includes the selected operate files
+        imgModalAttr: { fileName: '', show: false }
     },
     getters: {
         pathNameArray(state) {
@@ -110,6 +111,12 @@ export const store = new Vuex.Store({
             }
             else {
                 operateFiles.splice(0, length)
+            }
+        },
+        imgModal({ imgModalAttr }, { show, fileName }) {
+            imgModalAttr.show = show
+            if (fileName !== undefined) {
+                imgModalAttr.fileName = fileName
             }
         }
     },

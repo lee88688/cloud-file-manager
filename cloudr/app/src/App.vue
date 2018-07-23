@@ -93,6 +93,8 @@
         <Offline-Download-Modal v-bind:show.sync="showOfflineDownloadModal"/>
 
         <Message-Notification/>
+
+        <Image-Modal/>
     </div>
 </template>
 
@@ -107,6 +109,7 @@ import FileListContainer from './components/FileListContainer'
 import OfflineDownloadModal from './components/OfflineDownloadModal'
 import MessageNotification from './components/MessageNotification'
 import SelectTool from './components/SelectTool'
+import ImageModal from './components/ImageModal'
 
 function selectAllCheckbox(event) {
     let value = event.target.checked
@@ -136,7 +139,8 @@ export default {
         FileListContainer,
         OfflineDownloadModal,
         MessageNotification,
-        SelectTool
+        SelectTool,
+        ImageModal
     },
     methods: {
         ...mapActions(['search']),

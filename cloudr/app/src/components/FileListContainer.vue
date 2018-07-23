@@ -59,8 +59,12 @@ function clickCheckbox(store, index, value) {
     store.dispatch('selectOne', { index, value })
 }
 
-function clickName(store, dirName) {
+function clickDirName(store, dirName) {
     store.dispatch('enterDir', { dirName })
+}
+
+function clickImgName(store, imgName) {
+    store.commit('imgModal', { show: true, fileName: imgName })
 }
 
 function downloadFile(path, fileName) {
@@ -106,8 +110,15 @@ function clickProxy(event) {
         case CLICKTYPE.MOVE:
             break
         case CLICKTYPE.NAME: {
-            if (fileType === 'directory') {
-                clickName(store, fileName)
+            switch (fileType) {
+                case 'directory': {
+                    clickDirName(store, fileName)
+                    break
+                }
+                case 'image': {
+                    clickImgName(store, fileName)
+                    break
+                }
             }
             break
         }

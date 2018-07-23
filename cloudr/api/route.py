@@ -94,7 +94,7 @@ def new_directory():
 @bp.route("/rename-resource", methods=["POST"])
 @login_required
 def rename_resource():
-    new_name = secure_filename(request.json['newname'])
+    new_name = request.json['newname']
     old_name = request.json['oldname']
     path = request.json['path']
     user_name = current_user.username

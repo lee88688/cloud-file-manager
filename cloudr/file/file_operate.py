@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 from werkzeug.utils import secure_filename 
-from flask import send_from_directory, current_app, request, jsonify, session
+from flask import send_from_directory, current_app, request, jsonify, session, abort
 from cloudr import model
 from cloudr.model import db, File, Users
 from cloudr.utils.filetype import check_file_type
@@ -24,6 +24,8 @@ def file_download():
         File.filename == filename,
         File.path == path
     ).first()
+    if not file:
+        abort(404)
     return send_from_directory(current_app.config['FILE_PATH'], file.md5, as_attachment=True, attachment_filename=filename, conditional=True)
 
 
