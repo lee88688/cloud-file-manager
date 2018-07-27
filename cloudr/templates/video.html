@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>video</title>
+
+    <link href="/static/MaterialDesign-Webfont-master/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
+    <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+        integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX"
+        crossorigin="anonymous">
+    <link href="//vjs.zencdn.net/7.0/video-js.min.css" rel="stylesheet">
+
+    <style>
+        main.container {
+            padding-top: 60px;
+        }
+
+        .video-div {
+            height: 450px;
+        }
+
+        #video-player {
+            height: 100%;
+            width: 100%;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="javascript:void(0);">Cloudr</a>
+            <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
+                aria-controls="navbarCollapse"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+            </div>
+        </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 col-sm card mt-3 bg-light">
+                <h5 class="card-header">视频名称</h5>
+                <div>
+                    <div class="video-div mb-2">
+                        <video class="video-js" id="video-player" data-setup='{"controls": true, "autoplay": false, "preload": "auto"}'>
+                            <source src="/file/download?path=/&filename=Let%20It%20Go%20MV%20-%20FROZEN%201080p%20AVC%20AC3%204AUDIO%2000_00_00-00_00_15.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div>
+                        <button class="btn btn-raised btn-primary mr-2">
+                            <i class="mdi mdi-share-variant"></i>
+                            <span>分享</span>
+                        </button>
+                        <button class="btn btn-raised btn-secondary">
+                            <i class="mdi mdi-download"></i>
+                            <span>下载</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+        integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+        integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+        crossorigin="anonymous"></script>
+    <script src="//vjs.zencdn.net/7.0/video.min.js"></script>
+    <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
+    <script>
+        videojs('video-player')
+    </script>
+</body>
+
+</html>

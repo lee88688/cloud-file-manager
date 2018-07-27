@@ -21,3 +21,8 @@ def login():
     return render_template('login.html')
 
 # debug with webpack dev server $.post('/login', 'username=lee&password=1234')
+
+
+@view_bp.route('/video')
+def video():
+    return render_template('video.html')

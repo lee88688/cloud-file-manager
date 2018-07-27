@@ -1,7 +1,7 @@
 import os
 import click
 from flask.cli import with_appcontext
-from flask import Flask
+from flask import Flask, render_template
 from flask_login import LoginManager
 from .model import db
 from .config import FILE_PATH, SQLITE_URL
@@ -52,7 +52,7 @@ def init_table():
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='static')
 
     app.config['SECRET_KEY'] = os.urandom(24)
     app.config['LOGIN_DISABLED'] = False
