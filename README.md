@@ -8,3 +8,5 @@
 #### 目前使用到的技术栈：
 - 前端：Vue、bootstrap、webpack
 - 后端： Python（Flask、Celery）、aria2、redis
+
+![Screen Shot](https://raw.githubusercontent.com/lee88688/cloud-file-manager/master/screen%20shot.PNG)
