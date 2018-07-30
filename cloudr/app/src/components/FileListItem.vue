@@ -96,3 +96,20 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+.file-list-item {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 1px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.file-list-item > div {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+</style>
