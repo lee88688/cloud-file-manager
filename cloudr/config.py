@@ -1,14 +1,20 @@
 import os
+import json
 
 
-ARIA2_HOST = 'localhost'
-ARIA2_PORT = 6800
-ARIA2_TOKEN = None
+_config = json.load('config.json')
 
-REDIS_URL = 'redis://localhost:6379'
+
+ARIA2_HOST = _config['aria2']['host']
+ARIA2_PORT = _config['aria2']['port']
+ARIA2_TOKEN = _config['aria2']['token']
+
+REDIS_HOST = _config['redis']['host']
+REDIS_PORT = _config['redis']['port']
+REDIS_URL = 'redis://{}:{}'.format(REDIS_HOST, REDIS_PORT)  # 'redis://localhost:6379'
 
 SQLITE_URL = 'sqlite:///' + os.path.split(__file__)[0] + os.sep + 'db.sqlite3'
 
-MAX_READ_SIZE = 1024 * 1024
+SPLIT_SIZE = _config['split_size']
 
 FILE_PATH = r'G:\cloud-file-manager\.files'

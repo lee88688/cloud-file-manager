@@ -10,6 +10,7 @@ click = "*"
 flask-login = "*"
 requests = "*"
 celery = {extras = ["redis"]}
+walrus = "*"
 
 [dev-packages]
 pylint = "*"

@@ -1,6 +1,7 @@
 from flask import Flask
 from ..config import SQLITE_URL
 from .model import db, Users, File, FileType, OfflineDownload
+from .redis_model import redis_db, UploadCache
 
 
 def create_app():
