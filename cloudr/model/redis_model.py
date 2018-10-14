@@ -1,6 +1,6 @@
 import json
 import os
-from walrus import Model, Walrus, IntegerField, ListField, TextField, DateTimeField
+from walrus import Model, Walrus, IntegerField, ListField, TextField, DateTimeField, BooleanField
 
 
 _config = json.load(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.json'))
@@ -23,6 +23,8 @@ class UploadCache(Model):
     file_name = TextField()
     filetype = IntegerField()
     user_id = IntegerField()
+    # store saving task information
+    saving_task_start = BooleanField(default=False)
 
     @classmethod
     def generate_id(cls):

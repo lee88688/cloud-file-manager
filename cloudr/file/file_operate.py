@@ -35,19 +35,15 @@ def file_download():
 @bp.route("/uploads", methods=["POST"])
 def file_upload():
     blob = request.files['blob']
-    uc = UploadCache.load(request.form['task_id'])
-
-    if not filetype:
-        return jsonify(api_result("failure", "can't identify the file type."))
-    filetype = filetype.id
-
-    file_item = model.File(userid=user_id, filetype=filetype, filename=file_name, filesize=size, uploaddate=upload_date, path=path, md5=md5)
     try:
-        db.session.add(file_item)
-        db.session.commit()
-        file.save(os.path.join(current_app.config['FILE_PATH'], md5))
+        uc = UploadCache.load(request.form['task_id'])
     except Exception:
-        return jsonify(api_result(FAILURE_RESULT, "upload fail."))
+        return jsonify(api_result(FAILURE_RESULT, 'upload task may be expired. restart a new upload later.'))
+
+    uc.cache.append(blob)
+    if not uc.saving_task_start:
+        # todo: start saving task
+        pass
     return jsonify(api_result(SUCCESS_RESULT))
 
 
